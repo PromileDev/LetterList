@@ -9,7 +9,7 @@ export default {
 				"dark": "#615951",
 				"mid": "#8db0a1",
 				"light": "#dbcfc0",
-				"lightest": "#FFFFFF",
+				"lightest": "#FFFFFF"
 			}
 		},
 	},
