@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
+
+// Campos del formulario
 const full_name = ref('');
 const card_number = ref('');
 const card_expiration = ref('');
@@ -8,78 +9,129 @@ const cvv = ref('');
 const loading = ref(false);
 const error = ref('');
 
+// Manejo del envío de formulario (Simulación)
+const handlePayment = async () => {
+  try {
+    loading.value = true;
+    error.value = '';
+
+    // Simulación de procesamiento de pago
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simula una espera de 2 segundos
+
+    // Generar una respuesta exitosa o fallida
+    const isSuccess = true; // Cambiar a `true` para simular un pago exitoso
+    if (isSuccess) {
+      alert('Payment processed successfully!');
+      // Reiniciar campos si es necesario
+      full_name.value = '';
+      card_number.value = '';
+      card_expiration.value = '';
+      cvv.value = '';
+    } else {
+      throw new Error('Payment failed. Please try again.');
+    }
+  } catch (err) {
+    error.value = err.message;
+  } finally {
+    loading.value = false;
+  }
+};
 </script>
 
 <template>
-  <div class="py-8 antialiased md:py-16">
-    <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
-      <div class="mx-auto max-w-5xl">
-        <h2 class="text-6xl text-light font-bold sm:text-2xl">Payment</h2>
+  <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
+    <div class="mx-auto max-w-5xl">
+      <h1 class="font-bold text-lightest text-xl md:text-light md:text-6xl">Payment amount:</h1>
+      <h1 class="font-bold text-lightest text-xl md:text-6xl md:text-light md:mb-2">30 €</h1>
+      <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
+        <form
+          @submit.prevent="handlePayment"
+          class="w-full rounded-lg md:bg-light p-4 shadow-sm sm:p-6 lg:max-w-xl lg:p-8"
+        >
+          <!-- Nombre completo -->
+          <div class="mb-6">
+            <label for="full_name" class="font-semibold text-lightest text-xl mb-4 ml-2 md:text-darkest">
+              Full name*
+            </label>
+            <input
+              type="text"
+              id="full_name"
+              v-model="full_name"
+              class="block w-full rounded-lg bg-darkest text-white p-2.5 text-sm focus:ring-brand focus:border-brand"
+              placeholder="Bonnie Green"
+              pattern="[A-Za-z ]+" 
+              required
+            />
+          </div>
 
-        <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
-          <form action="#" class="w-full rounded-lg border border-gray-200 bg-light p-4 shadow-sm dark:border-gray-700  sm:p-6 lg:max-w-xl lg:p-8">
-            <div class="mb-6 grid grid-cols-2 gap-4">
-              <div class="col-span-2 sm:col-span-1">
-                <label for="full_name" class="mb-2 block text-sm font-medium text-lightest "> Full name (as displayed on card)* </label>
-                <input type="text" id="full_name" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="Bonnie Green" required />
-              </div>
+          <!-- Número de tarjeta -->
+          <div class="mb-6">
+            <label for="card_number" class="font-semibold text-lightest text-xl mb-4 ml-2 md:text-darkest">
+              Card number*
+            </label>
+            <input
+              type="text"
+              id="card_number"
+              v-model="card_number"
+              class="block w-full rounded-lg bg-darkest text-white p-2.5 text-sm focus:ring-brand focus:border-brand"
+              placeholder="xxxx-xxxx-xxxx-xxxx"
+              pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"
+              required
+            />
+          </div>
 
-              <div class="col-span-2 sm:col-span-1">
-                <label for="card-number-input" class="mb-2 block text-sm font-medium text-light"> Card number* </label>
-                <input type="text" id="card-number-input" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pe-10 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="xxxx-xxxx-xxxx-xxxx" pattern="^4[0-9]{12}(?:[0-9]{3})?$" required />
-              </div>
-
-              <div>
-                <label for="card-expiration-input" class="mb-2 block text-sm font-medium text-light">Card expiration* </label>
-                <div class="relative">
-                  <div class="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3.5">
-                    <svg class="h-4 w-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                      <path
-                        fill-rule="evenodd"
-                        d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </div>
-                  <input datepicker datepicker-format="mm/yy" id="card-expiration-input" type="text" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 ps-9 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500" placeholder="12/23" required />
-                </div>
-              </div>
-              <div>
-                <label for="cvv-input" class="mb-2 flex items-center gap-1 text-sm font-medium text-gray-900 dark:text-white">
-                  CVV*
-                  <button data-tooltip-target="cvv-desc" data-tooltip-trigger="hover" class="text-gray-400 hover:text-gray-900 dark:text-gray-500 dark:hover:text-white">
-                    <svg class="h-4 w-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                      <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm9.408-5.5a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2h-.01ZM10 10a1 1 0 1 0 0 2h1v3h-1a1 1 0 1 0 0 2h4a1 1 0 1 0 0-2h-1v-4a1 1 0 0 0-1-1h-2Z" clip-rule="evenodd" />
-                    </svg>
-                  </button>
-                  <div id="cvv-desc" role="tooltip" class="tooltip invisible absolute z-10 inline-block rounded-lg bg-gray-900 px-3 py-2 text-sm font-medium text-white opacity-0 shadow-sm transition-opacity duration-300 dark:bg-gray-700">
-                    The last 3 digits on back of card
-                    <div class="tooltip-arrow" data-popper-arrow></div>
-                  </div>
-                </label>
-                <input type="number" id="cvv-input" aria-describedby="helper-text-explanation" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500" placeholder="•••" required />
-              </div>
+          <!-- Fecha de expiración -->
+          <div class="mb-6 grid grid-cols-2 gap-4">
+            <div>
+              <label for="card_expiration" class="font-semibold text-lightest text-xl mb-4 ml-2 md:text-darkest">
+                Expiration*
+              </label>
+              <input
+                type="text"
+                id="card_expiration"
+                v-model="card_expiration"
+                class="block w-full rounded-lg bg-darkest text-white p-2.5 text-sm focus:ring-brand focus:border-brand"
+                placeholder="MM/YY"
+                pattern="(0[1-9]|1[0-2])\/[0-9]{2}"
+                required
+              />
             </div>
 
-            <button type="submit" class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Pay now</button>
-          </form>
-
-          <div class="mt-6 grow sm:mt-8 lg:mt-0">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Secure payment</h3>   
-
-            <div class="mt-6 flex items-center justify-center gap-8">
-              <img class="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal.svg" alt="" />
-              <img class="hidden h-8 w-auto dark:flex" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/paypal-dark.svg" alt="" />
-              <img class="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa.svg" alt="" />
-              <img class="hidden h-8 w-auto dark:flex" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/visa-dark.svg" alt="" />
-              <img class="h-8 w-auto dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard.svg" alt="" />
-              <img class="hidden h-8 w-auto dark:flex" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/brand-logos/mastercard-dark.svg" alt="" />
+            <!-- CVV -->
+            <div>
+              <label for="cvv" class="font-semibold text-lightest text-xl mb-4 ml-2 md:text-darkest">
+                CVV*
+              </label>
+              <input
+                type="text"
+                id="cvv"
+                v-model="cvv"
+                class="block w-full rounded-lg bg-darkest text-white p-2.5 text-sm focus:ring-brand focus:border-brand"
+                placeholder="•••"
+                required
+              />
             </div>
           </div>
-        </div>
 
+          <!-- Botón de pago -->
+          <button
+            type="submit"
+            class="mx-auto bg-brand py-2 w-full rounded-full font-bold text-darkest"
+            :disabled="loading"
+          >
+            {{ loading ? 'Processing...' : 'Pay now' }}
+          </button>
+
+          <!-- Mensaje de error -->
+          <p v-if="error" class="mt-4 text-red-500 text-sm">{{ error }}</p>
+        </form>
+      </div>
+
+      <!-- Logos de tarjetas -->
+      <div class="flex justify-center items-center mt-3 mb-5">
+        <img src="/fotos/Mastercard.png" class="w-[75px] mx-2" alt="Mastercard logo">
+        <img src="/fotos/Visa.png" class="w-[75px] mx-2" alt="Visa logo">
       </div>
     </div>
   </div>
 </template>
-
