@@ -1,0 +1,22 @@
+---
+import UserHome from "./UserHome.vue"
+---
+
+<section>
+    <nav class="flex flex-row justify-between w-11/12 mx-auto mt-4 bg-white/30 backdrop-blur-lg backdrop-saturate-150 border border-white/20 rounded-lg shadow-lg p-6">
+        <div>
+            <a href="/" class="text-darkest text-2xl font-bold">LetterList</a>
+        </div>
+        <div>
+            <ul class="flex flex-row gap-5">
+                <li><a href="">Home</a></li>
+                <li><a href="">Plans</a></li>
+                <li><a href="">Demos page</a></li>
+                <li><a href="">Support</a></li>
+            </ul>
+        </div>
+        <div>
+            <UserHome client:load />
+        </div>
+    </nav>
+</section>
