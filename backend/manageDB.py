@@ -1,7 +1,7 @@
 import sqlite3
 
 # Crear o conectar a la base de datos
-conn = sqlite3.connect('letterlist.db')
+conn = sqlite3.connect('backend/letterlist.db')
 
 # Crear un cursor para ejecutar comandos SQL
 cursor = conn.cursor()
@@ -14,6 +14,16 @@ CREATE TABLE IF NOT EXISTS users (
     lastname TEXT NOT NULL,
     email TEXT NOT NULL,
     password TEXT NOT NULL
+)
+''')
+
+#Crear tabla 'sections'
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS sections (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    website_id INTEGER NOT NULL,
+    FOREIGN KEY (website_id) REFERENCES websites(id)
 )
 ''')
 
@@ -32,11 +42,16 @@ cursor.execute('''
 CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    section TEXT NOT NULL,
+    price float NOT NULL,
     website INTEGER NOT NULL,
-    FOREIGN KEY (website) REFERENCES websites(id)
+    section_id INTEGER, 
+
+    FOREIGN KEY (website) REFERENCES websites(id),
+    FOREIGN KEY (section_id) REFERENCES sections(id)
+               
 )
 ''')
+
 
 # Guardar los cambios
 conn.commit()
@@ -103,5 +118,35 @@ class DatabaseManager:
     def get_all_websites(self, user_id):
         websites = self.query("SELECT * FROM websites where user_id = ?", (user_id,))
         return [dict(row) for row in websites]
+    
+    def add_section(self, name, website_id):
+        self.query(
+            "INSERT INTO sections (name, website_id) VALUES (?, ?)",
+            (name, website_id),
+            commit=True
+        )
+    
+    def add_section_product(self, section_id, product_id):
+        self.query(
+            "UPDATE products SET section = ? WHERE id = ?", (section_id, product_id),
+            commit=True
+        )
+
+    def get_all_sections(self, website_id):
+        sections = self.query("SELECT * FROM sections where website_id = ?", (website_id,))
+        return [dict(row) for row in sections]
+    
+    def get_all_products_by_section(self, section):
+        products = self.query("SELECT * FROM products where section = ?", (section,))
+        return [dict(row) for row in products]
+    
+    def get_all_products_by_website(self, website_id):
+        products = self.query("SELECT * FROM products where website = ?", (website_id,))
+        return [dict(row) for row in products]
+    
+
+    
+
+
 
 
