@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 import datetime
-from manageDB import DatabaseManager
+import manageDB as db
 from flask_cors import CORS
 
 # Configuración de la app Flask
@@ -11,15 +11,15 @@ app.config["JWT_SECRET_KEY"] = "tu_clave_secreta_segura"  # Cambia esto por algo
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(hours=1)
 jwt = JWTManager(app)
 
-# Instancia del gestor de base de datos
-db = DatabaseManager()
-
 # Rutas de autenticación
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
-    db.add_user(data['name'], data['lastname'], data['email'], data['password'])
-    return jsonify({"message": "User registered successfully!"}), 201
+    if db.get_validated_register(data["email"]) == None:
+        db.add_user(data['name'], data['lastname'], data['email'], data['password'])
+        return jsonify({"message": "User registered successfully!"}), 201
+    else:
+        return jsonify({"message": "Email already registered!"}), 400
 
 @app.route('/login', methods=['POST'])
 def login():
