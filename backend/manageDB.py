@@ -103,3 +103,5 @@ class DatabaseManager:
     def get_all_websites(self, user_id):
         websites = self.query("SELECT * FROM websites where user_id = ?", (user_id,))
         return [dict(row) for row in websites]
+
+

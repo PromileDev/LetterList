@@ -1,0 +1,10 @@
+---
+import Layout from '../layouts/Layout.astro';
+import DashboardComponent from '../components/Dashboard.vue';
+---
+
+<Layout title="Dashboard">
+  <main>
+    <DashboardComponent client:load />
+  </main>
+</Layout>

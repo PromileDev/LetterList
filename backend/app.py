@@ -37,7 +37,12 @@ def login():
 def protected():
     user_id = get_jwt_identity()
     user = db.get_user_by_id(user_id)
-    return jsonify({"message": f"Hello, {user['name']} {user['lastname']}!"}), 200
+    return jsonify({
+        "name": user['name'],
+        "lastname": user['lastname'],
+        "email": user['email']
+        
+        }), 200
 
 # Operaciones con productos
 @app.route('/products', methods=['POST'])
@@ -67,6 +72,13 @@ def get_websites():
     print (user_id)
     websites = db.get_all_websites(user_id)
     return jsonify(websites), 200
+
+@app.route('/dashboard', methods=['GET'])
+@jwt_required()
+def get_dashboard():
+    user_id = get_jwt_identity()
+    dashboard = db.get_dashboard(user_id)
+    return jsonify(dashboard), 200
 
 # Iniciar el servidor
 if __name__ == '__main__':
