@@ -24,7 +24,7 @@ const handleLogin = async () => {
 
     localStorage.setItem("access_token", token);
     
-    window.location.href = '/dashboard';
+    window.location.href = '/';
   } catch (err) {
     error.value = err.response?.data?.message || 'An error occurred during login';
   } finally {
