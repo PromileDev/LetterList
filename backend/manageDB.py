@@ -1,7 +1,7 @@
 import sqlite3
 
 # Crear o conectar a la base de datos
-conn = sqlite3.connect('backend/letterlist.db')
+conn = sqlite3.connect('letterlist.db')
 
 # Crear un cursor para ejecutar comandos SQL
 cursor = conn.cursor()
@@ -60,7 +60,7 @@ conn.commit()
 conn.close()
 
 class DatabaseManager:
-    def __init__(self, database='letterlist.db'):
+    def __init__(self, database='backend/letterlist.db'):
         self.database = database
 
     def query(self, query, args=(), one=False, commit=False):
