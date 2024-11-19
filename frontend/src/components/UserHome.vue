@@ -11,6 +11,11 @@ const error = ref('');
 const login = ref(false);
 const dropDownVisible = ref(false);
 
+const signOut = () => {
+  localStorage.removeItem('access_token');
+  window.location.href = '/';
+};
+
 const fetchUserInfo = async () => {
   try {
     const token = localStorage.getItem('access_token');
@@ -71,9 +76,9 @@ onMounted(() => {
             </li>
           </ul>
           <div class="py-1 px-1">
-            <a href="#"
-              class="block px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white hover:rounded-lg">Sign
-              out</a>
+            <button type="button" @click="signOut"
+              class="w-full flex block px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white hover:rounded-lg">Sign
+              out</button>
           </div>
         </div>
       </div>
