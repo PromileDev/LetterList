@@ -73,12 +73,18 @@ def get_websites():
     websites = db.get_all_websites(user_id)
     return jsonify(websites), 200
 
-@app.route('/dashboard', methods=['GET'])
+@app.route("/settings", methods=['POST'])
 @jwt_required()
-def get_dashboard():
+def change_user():
+    data = request.get_json()
     user_id = get_jwt_identity()
-    dashboard = db.get_dashboard(user_id)
-    return jsonify(dashboard), 200
+    if db.get_validated_register(data["email"]) == None:
+        db.change_user(data['name'], data['lastname'], data['email'], user_id)
+        return jsonify({"message": "User changed successfully!"}), 200
+    else:
+        return jsonify({"message": "Email already registered!"}), 400
+
+
 
 # Iniciar el servidor
 if __name__ == '__main__':
