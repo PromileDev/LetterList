@@ -69,7 +69,7 @@ onMounted(() => {
 
             </li>
             <li>
-              <a href="#" class="rounded-lg block px-4 py-2 hover:bg-gray-100 ">Settings</a>
+              <a href="/settings" class="rounded-lg block px-4 py-2 hover:bg-gray-100 ">Settings</a>
             </li>
             <li>
               <a href="#" class="rounded-lg block px-4 py-2 hover:bg-gray-100">Websites</a>
