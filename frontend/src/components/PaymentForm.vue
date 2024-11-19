@@ -19,7 +19,7 @@ const handlePayment = async () => {
     await new Promise((resolve) => setTimeout(resolve, 2000)); // Simula una espera de 2 segundos
 
     // Generar una respuesta exitosa o fallida
-    const isSuccess = true; // Cambiar a `true` para simular un pago exitoso
+    const isSuccess = false; // Cambiar a `true` para simular un pago exitoso
     if (isSuccess) {
       alert('Payment processed successfully!');
       // Reiniciar campos si es necesario
