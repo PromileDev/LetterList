@@ -2,8 +2,9 @@
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 
-const email = ref('');
 const name = ref('');
+const email = ref('');
+const password = ref('');
 const lastname = ref('');
 const error = ref('');
 const successMessage = ref('');
@@ -22,9 +23,9 @@ const fetchUserInfo = async () => {
       },
     });
     const data = response.data;
-    email.value = data.email;
     name.value = data.name;
     lastname.value = data.lastname;
+    email.value = data.email;
   } catch (err) {
     console.error('Error fetching user info:', err);
     error.value = 'Failed to load user information';
@@ -49,6 +50,7 @@ const handleSave = async (event) => {
         name: name.value,
         lastname: lastname.value,
         email: email.value,
+        password: password.value,
       },
       {
         headers: {
@@ -65,7 +67,7 @@ const handleSave = async (event) => {
     console.error('Error updating user info:', err);
     error.value = 'Failed to update user information';
     if (err.response?.status === 401) {
-      window.location.href = '/';
+      error.value = "Password error";
     }
   }
 };
@@ -103,17 +105,18 @@ onMounted(() => {
             </div>
         </div>
         <div class="mx-auto flex flex-col w-full">
-          <label class="text-lightest text-xl mb-4 ml-2 md:text-darkest" for="email">Email</label>
+          <label class="text-lightest text-xl mb-4 ml-2 md:text-darkest" for="password">Password</label>
           <input 
             class="bg-darkest py-1 rounded-lg text-white pl-2"
-            type="email" 
-            id="email" 
-            v-model="email" 
+            type="password" 
+            id="password" 
+            v-model="password" 
             required 
           >
         </div>
-        <div class="mx-auto">
+        <div class="mx-auto flex flex-col text-center">
             <a class="text-lg text-brand md:text-dark font-bold" href="">Change Password</a>
+            <a class="text-lg text-brand md:text-dark font-bold" href="">Change Email</a>
         </div>
         <button class="mx-auto bg-brand py-2 w-[80%] rounded-full font-bold text-darkest" type="submit" :disabled="loading">
           {{ loading ? 'Loading...' : 'Save' }}

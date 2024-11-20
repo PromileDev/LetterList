@@ -72,7 +72,7 @@ onMounted(() => {
               <a href="/settings" class="rounded-lg block px-4 py-2 hover:bg-gray-100 ">Settings</a>
             </li>
             <li>
-              <a href="#" class="rounded-lg block px-4 py-2 hover:bg-gray-100">Websites</a>
+              <a href="#" class="rounded-lg block px-4 py-2 hover:bg-gray-100">Demos</a>
             </li>
           </ul>
           <div class="py-1 px-1">
@@ -83,8 +83,8 @@ onMounted(() => {
         </div>
       </div>
       <div v-else class="flex flex-row gap-4">
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <a class="bg-darkest py-2 px-4 rounded-lg text-lightest" href="/login">Login</a>
+        <a class="bg-mid py-2 px-4 rounded-lg text-darkest "href="/register">Register</a>
       </div>
     </div>
   </div>

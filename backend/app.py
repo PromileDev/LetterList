@@ -78,11 +78,12 @@ def get_websites():
 def change_user():
     data = request.get_json()
     user_id = get_jwt_identity()
-    if db.get_validated_register(data["email"]) == None:
-        db.change_user(data['name'], data['lastname'], data['email'], user_id)
-        return jsonify({"message": "User changed successfully!"}), 200
-    else:
-        return jsonify({"message": "Email already registered!"}), 400
+    user = db.get_user_by_email_and_password(data['email'], data['password'])
+    if not user:
+        return jsonify({"message": "Invalid credentials!"}), 401
+    print("HASTA AQUI LLEGA")
+    db.change_user(data['name'], data['lastname'], user_id)
+    return jsonify({"message": "User changed successfully!"}), 201
 
 
 
