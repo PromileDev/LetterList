@@ -1,0 +1,16 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Navbar from "../components/Navbar.astro";
+import SettingsComponent from "../components/Settings.vue";
+---
+
+<Layout title="Settings">
+    <main class="">
+        <Navbar />
+        <section class="w-full flex flex-col items-center mt-10">
+            <div class="flex justify-center items-center w-11/12 md:w-[50%] mt-10 md:mt-0 flex-col">
+                <SettingsComponent client:load/>
+            </div>
+        </section>
+    </main>
+</Layout>

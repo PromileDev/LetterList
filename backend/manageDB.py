@@ -141,3 +141,11 @@ def get_validated_register(email):
         (email,),
         one=True
     )
+
+def change_user(name, lastname, user_id):
+    query(
+        "UPDATE users SET name = ?, lastname = ? WHERE id = ?",
+        (name, lastname, user_id),
+        commit=True
+    )
+
