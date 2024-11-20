@@ -2,16 +2,18 @@
 import Layout from '../layouts/Layout.astro'
 import PlanCard  from '../components/PlanCard.vue'
 import TablePlans from '../components/TablePlans.vue'
+import Navbar from '../components/Navbar.astro'
 ---
 <Layout title='Plans'>
     <main>
+      <Navbar />
       <h1 class="text-6xl text-light font-bold text-center mt-10">Plans</h1>
 
       
-      <div class="flex flex-row gap-6 justify-center mt-10">
+      <div class=" flex flex-col md:flex-row gap-6 justify-center items-center mt-10">
           <PlanCard title={'Basic'} price={50} options={['Unlimited letters', 'Unlimited templates', 'Unlimited contacts', 'Unlimited campaigns', 'Unlimited analytics']} />
-          <PlanCard title={'Pro'} price={100} options={['Unlimited letters', 'Unlimited templates', 'Unlimited contacts', 'Unlimited campaigns', 'Unlimited analytics', 'Custom branding']} />
-          <PlanCard title={'Enterprise'} price={200} options={['Unlimited letters', 'Unlimited templates', 'Unlimited contacts', 'Unlimited campaigns', 'Unlimited analytics', 'Custom branding', 'Dedicated account manager']} />
+          <PlanCard title={'Pro'} price={100} options={['Basic Plan', 'Custom branding']} />
+          <PlanCard title={'Enterprise'} price={200} options={['Pro plan', 'Dedicated account manager']} />
       </div>
 
       <TablePlans />

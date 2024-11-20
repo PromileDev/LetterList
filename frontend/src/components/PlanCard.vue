@@ -1,32 +1,6 @@
-<template>
-  <div class="card bg-darkest shadow-lg rounded-lg p-6 text-lightest border border-mid transform transition-transform hover:scale-105 flex flex-col">
-    <div class="flex items-center mb-6">
-      <img
-        src="/fotos/light.png"
-        alt="Lightbulb icon"
-        class="w-8 h-8 mr-2"
-      />
-      <h2 class="text-2xl text-lightest font-bold">{{ title }}</h2>
-    </div>
-    <p class="text-xl text-light mb-4">${{ price }}</p>
-    <ul class="list-disc list-inside space-y-2 flex-grow">
-      <li
-        v-for="(option, index) in options"
-        :key="index"
-        class="text-mid"
-      >
-        {{ option }}
-      </li>
-    </ul>
-    <div class="flex justify-end mt-6">
-      <button
-        class="bg-brand text-darkest px-6 py-3 rounded-md shadow-md hover:bg-light transition-colors"
-      >
-        Select Plan
-      </button>
-    </div>
-  </div>
-</template>
+<script setup>
+import MostPopular from "../components/MostPopular.vue";
+</script>
 
 <script>
 export default {
@@ -45,8 +19,44 @@ export default {
       required: true,
     },
   },
+
 };
 </script>
+<template>
+  <div class="card bg-darkest shadow-lg rounded-lg text-lightest border border-mid transform transition-transform hover:scale-105 flex flex-col">
+    <div class="flex justify-end mb-3">
+
+      <MostPopular />
+    </div>
+
+      <div class="flex items-center mb-6 pl-5">
+        <img
+        src="/fotos/light.png"
+        alt="Lightbulb icon"
+        class="w-8 h-8 mr-2"
+        />
+        <h2 class="text-2xl text-lightest font-bold">{{ title }}</h2>
+      </div>
+      <p class="text-xl text-light mb-4 pl-5">${{ price }}</p>
+      <ul class="list-disc list-inside space-y-2 flex-grow pl-5">
+        <li
+        v-for="(option, index) in options"
+        :key="index"
+        class="text-mid"
+        >
+        {{ option }}
+      </li>
+      </ul>
+      <div class="flex justify-end mt-3">
+        <button
+        class="bg-brand text-darkest px-6 py-3 rounded-md shadow-md hover:bg-light transition-colors"
+        >
+        Select Plan
+      </button>
+      </div>
+    </div>
+</template>
+
 
 <style scoped>
 .card {
@@ -54,6 +64,7 @@ export default {
   border-color: var(--mid);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 450px;
+  width: 300px;
 }
 </style>
