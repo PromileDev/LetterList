@@ -58,7 +58,7 @@ onMounted(() => {
         <span class="text-lg">{{ name }} {{ lastname }}</span>
         <img src="/fotos/avatar.png" class="w-10 h-10 rounded-full" alt="">
         <div v-if="dropDownVisible"
-          class="absolute top-[70px] md:right-5 bg-white divide-y divide-gray-100 rounded-lg shadow max-w-52">
+          class="fixed top-[70px] md:right-5 bg-white divide-y divide-gray-100 rounded-lg shadow max-w-52">
           <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
             <div>{{ name }} {{ lastname }}</div>
             <div class="font-medium truncate">{{ email }}</div>

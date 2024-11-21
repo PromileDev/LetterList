@@ -8,7 +8,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 app.config["JWT_SECRET_KEY"] = "tu_clave_secreta_segura"  # Cambia esto por algo más seguro
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(hours=1)
 jwt = JWTManager(app)
 
 # Rutas de autenticación
