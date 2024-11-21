@@ -58,12 +58,16 @@ def get_products():
     products = db.get_all_products()
     return jsonify(products), 200
 
+
+
 @app.route('/website', methods=['POST'])
 @jwt_required()
 def add_website():
     data = request.get_json()
     db.add_website(data['name'], data['user_id'])
     return jsonify({"message": "Website added successfully!"}), 201
+
+
 
 @app.route('/websites', methods=['GET'])
 @jwt_required()
@@ -72,6 +76,8 @@ def get_websites():
     print (user_id)
     websites = db.get_all_websites(user_id)
     return jsonify(websites), 200
+
+
 
 @app.route("/settings", methods=['POST'])
 @jwt_required()
