@@ -1,101 +1,101 @@
-<script setup>
-</script>
 <template>
+    <div id="detailed-pricing" class="w-full overflow-x-auto">
+      <div class="overflow-hidden min-w-max px-10 pt-5">
+        <!-- Header -->
+        <div class="grid grid-cols-4 p-4 text-sm font-medium text-darkest bg-light border-t border-b border-mid gap-x-16">
+          <div class="flex items-center">Features</div>
+          <div>Community Edition</div>
+          <div>Developer Edition</div>
+          <div>Designer Edition</div>
+        </div>
   
-
-<div id="detailed-pricing" class="w-full overflow-x-auto">
-    <div class="overflow-hidden min-w-max px-10 pt-5">
-        <div class="grid grid-cols-4 p-4 text-sm font-medium text-gray-900 bg-gray-100 border-t border-b border-gray-200 gap-x-16 dark:bg-gray-800 dark:border-gray-700 dark:text-white">
-            <div class="flex items-center">Tailwind CSS code</div>
-            <div>Community Edition</div>
-            <div>Developer Edition</div>
-            <div>Designer Edition</div>
+        <!-- Rows -->
+        <div
+          class="grid grid-cols-4 px-4 py-5 text-sm border-b border-mid gap-x-16"
+          v-for="(row, index) in rows"
+          :key="index"
+        >
+          <div class="text-gray-400">
+            {{ row.feature }}
+            <span v-if="row.link">
+              (<a href="#" class="text-brand hover:underline">view</a>)
+            </span>
+          </div>
+          <div v-for="status in row.status" :key="status" class="flex justify-center">
+            <svg
+              v-if="status"
+              class="w-4 h-4 text-green-400"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 16 12"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M1 5.917 5.724 10.5 15 1.5"
+              />
+            </svg>
+            <svg
+              v-else
+              class="w-4 h-4 text-red-500"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+          </div>
         </div>
-        <div class="grid grid-cols-4 px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
-            <div class="text-gray-500 dark:text-gray-400">Basic components (<a href="#" class="text-blue-600 hover:underline">view all</a>)</div>
-            <div>
-                <svg class="w-3 h-3 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
-                </svg>
-            </div>
-            <div>
-                <svg class="w-3 h-3 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
-                </svg>
-            </div>
-            <div>
-                <svg class="w-3 h-3 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
-                </svg>
-            </div>
+  
+        <!-- Buttons -->
+        <div class="grid grid-cols-4 px-4 py-5 text-sm border-b border-mid gap-x-16">
+          <div></div>
+          <div v-for="edition in editions" :key="edition">
+            <a
+              href="#"
+              class="bg-brand text-darkest px-6 py-3 rounded-md shadow-md hover:bg-light transition-colors"
+            >
+              Buy now
+            </a>
+          </div>
         </div>
-        <div class="grid grid-cols-4 px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
-            <div class="text-gray-500 dark:text-gray-400">Application UI (<a href="#" class="text-blue-600 hover:underline">view demo</a>)</div>
-            <div>
-                <svg class="w-3 h-3 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                </svg>
-            </div>
-            <div>
-                <svg class="w-3 h-3 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
-                </svg>
-            </div>
-            <div>
-                <svg class="w-3 h-3 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                </svg>
-            </div>
-        </div>
-        <div class="grid grid-cols-4 px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
-            <div class="text-gray-500 dark:text-gray-400">Marketing UI pre-order</div>
-            <div>
-                <svg class="w-3 h-3 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                </svg>
-            </div>
-            <div>
-                <svg class="w-3 h-3 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
-                </svg>
-            </div>
-            <div>
-                <svg class="w-3 h-3 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                </svg>
-            </div>
-        </div>
-        <div class="grid grid-cols-4 px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
-            <div class="text-gray-500 dark:text-gray-400">E-commerce UI pre-order</div>
-            <div>
-                <svg class="w-3 h-3 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                </svg>
-            </div>
-            <div>
-                <svg class="w-3 h-3 text-green-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
-                </svg>
-            </div>
-            <div>
-                <svg class="w-3 h-3 text-red-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                </svg>
-            </div>
-        </div>
-        <div class="grid grid-cols-4 px-4 py-5 text-sm text-gray-700 border-b border-gray-200 gap-x-16 dark:border-gray-700">
-            <div class="text-gray-500 dark:text-gray-400"></div>
-            <div>
-                <a href="#" class="text-white block w-full bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:focus:ring-blue-900">Buy now</a>
-            </div>
-            <div>
-                <a href="#" class="text-white block w-full bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:focus:ring-blue-900">Buy now</a>
-            </div>
-            <div>
-                <a href="#" class="text-white block w-full bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 font-medium rounded-lg text-sm px-4 py-2.5 text-center dark:focus:ring-blue-900">Buy now</a>
-            </div>
-        </div>
+      </div>
     </div>
-</div>
-
-</template>
+  </template>
+  
+  <script setup>
+  const rows = [
+    {
+      feature: "Basic components",
+      link: true,
+      status: [true, true, true],
+    },
+    {
+      feature: "Application UI",
+      link: true,
+      status: [false, true, false],
+    },
+    {
+      feature: "Marketing UI pre-order",
+      status: [false, true, false],
+    },
+    {
+      feature: "E-commerce UI pre-order",
+      status: [false, true, false],
+    },
+  ];
+  
+  const editions = ["Community", "Developer", "Designer"];
+  </script>
+  
+  <style scoped>
+  </style>
+  
