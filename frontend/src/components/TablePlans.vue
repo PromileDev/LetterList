@@ -94,16 +94,8 @@
     status: [true, true, true],
   },
   {
-    feature: "Basic Plan",
-    status: [false, true, true],
-  },
-  {
     feature: "Custom branding",
     status: [false, true, true],
-  },
-  {
-    feature: "Pro plan",
-    status: [false, false, true],
   },
   {
     feature: "Dedicated account manager",
