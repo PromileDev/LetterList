@@ -2,11 +2,11 @@
     <div id="detailed-pricing" class="w-full overflow-x-auto">
       <div class="overflow-hidden min-w-max px-10 pt-5">
         <!-- Header -->
-        <div class="grid grid-cols-4 p-4 text-sm font-medium text-darkest bg-light border-t border-b border-mid gap-x-16">
+        <div class="grid grid-cols-4 p-4 text-sm font-bold text-darkest bg-light border-t border-b border-mid gap-x-16">
           <div class="flex items-center">Features</div>
-          <div>Community Edition</div>
-          <div>Developer Edition</div>
-          <div>Designer Edition</div>
+          <div>Basic Edition</div>
+          <div>Pro Edition</div>
+          <div>Enterprise Edition</div>
         </div>
   
         <!-- Rows -->
@@ -15,13 +15,13 @@
           v-for="(row, index) in rows"
           :key="index"
         >
-          <div class="text-gray-400">
+          <div class="text-mid">
             {{ row.feature }}
             <span v-if="row.link">
-              (<a href="#" class="text-brand hover:underline">view</a>)
+              (<a href="#" class="text-darkest hover:underline">view</a>)
             </span>
           </div>
-          <div v-for="status in row.status" :key="status" class="flex justify-center">
+          <div v-for="status in row.status" :key="status" class="flex justify-start ml-7">
             <svg
               v-if="status"
               class="w-4 h-4 text-green-400"
@@ -56,12 +56,12 @@
         </div>
   
         <!-- Buttons -->
-        <div class="grid grid-cols-4 px-4 py-5 text-sm border-b border-mid gap-x-16">
+        <div class="grid grid-cols-4 py-5 text-sm border-b border-mid gap-x-16">
           <div></div>
           <div v-for="edition in editions" :key="edition">
             <a
               href="#"
-              class="bg-brand text-darkest px-6 py-3 rounded-md shadow-md hover:bg-light transition-colors"
+              class="bg-brand text-darkest px-4 py-3 rounded-md shadow-md hover:bg-light transition-colors"
             >
               Buy now
             </a>
@@ -73,27 +73,46 @@
   
   <script setup>
   const rows = [
-    {
-      feature: "Basic components",
-      link: true,
-      status: [true, true, true],
-    },
-    {
-      feature: "Application UI",
-      link: true,
-      status: [false, true, false],
-    },
-    {
-      feature: "Marketing UI pre-order",
-      status: [false, true, false],
-    },
-    {
-      feature: "E-commerce UI pre-order",
-      status: [false, true, false],
-    },
-  ];
+  {
+    feature: "Unlimited letters",
+    status: [true, true, true],
+  },
+  {
+    feature: "Unlimited templates",
+    status: [true, true, true],
+  },
+  {
+    feature: "Unlimited contacts",
+    status: [true, true, true],
+  },
+  {
+    feature: "Unlimited campaigns",
+    status: [true, true, true],
+  },
+  {
+    feature: "Unlimited analytics",
+    status: [true, true, true],
+  },
+  {
+    feature: "Basic Plan",
+    status: [false, true, true],
+  },
+  {
+    feature: "Custom branding",
+    status: [false, true, true],
+  },
+  {
+    feature: "Pro plan",
+    status: [false, false, true],
+  },
+  {
+    feature: "Dedicated account manager",
+    status: [false, false, true],
+  },
+];
+
   
-  const editions = ["Community", "Developer", "Designer"];
+  const editions = ["basic", "pro", "enterprise"];
   </script>
   
   <style scoped>

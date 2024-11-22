@@ -11,11 +11,14 @@ import Navbar from '../components/Navbar.astro'
 
       
       <div class=" flex flex-col md:flex-row gap-6 justify-center items-center mt-10">
-          <PlanCard title={'Basic'} price={50} options={['Unlimited letters', 'Unlimited templates', 'Unlimited contacts', 'Unlimited campaigns', 'Unlimited analytics']} />
-          <PlanCard title={'Pro'} price={100} options={['Basic Plan', 'Custom branding']}, popular={true} />
-          <PlanCard title={'Enterprise'} price={200} options={['Pro plan', 'Dedicated account manager']} />
+          <PlanCard client:load title={'Basic'} price={50} options={['Unlimited letters', 'Unlimited templates', 'Unlimited contacts', 'Unlimited campaigns', 'Unlimited analytics']} />
+          <PlanCard client:load title={'Pro'} price={100} options={['Basic Plan', 'Custom branding']}, popular={true} />
+          <PlanCard client:load title={'Enterprise'} price={200} options={['Pro plan', 'Dedicated account manager']} />
       </div>
 
-      <TablePlans />
+      <div class="flex justify-center items-center mt-20">
+        <h2 class="text-4xl text-light font-bold">Compare Plans</h2>
+      </div>
+      <TablePlans client:load />
     </main>
 </Layout>
