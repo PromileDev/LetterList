@@ -9,7 +9,7 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es" class="bg-dark">
+<html lang="es">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Astro description" />
@@ -28,9 +28,16 @@ const { title } = Astro.props;
 <style is:global>
 	html {
 		font-family: 'Geist';
+		background-color: var(--background-color);
 	}
 	@font-face {
 		font-family: 'Geist';
 		src: url("/fonts/Geist-Regular.ttf"), format("truetype");
+	}
+	:root {
+		--background-color: #bdb0a1;
+	}
+	.dark {
+		--background-color: #615951;
 	}
 </style>

@@ -8,20 +8,24 @@ import Navbar from "../components/Navbar.astro";
         <Navbar />
         <section class="w-11/12 mt-10 mb-10 mx-auto flex flex-col justify-center items-center">
             <h1 class="text-6xl text-light font-bold">Contact Us</h1>
-            <div class="mt-5 p-10 md:bg-darkest text-light rounded-lg md:shadow-lg">
+            <div class="mt-5 p-10 md:bg-light text-light md:text-dark rounded-lg md:shadow-lg">
                 <form class="flex flex-col gap-4" action="">
                     <div class="flex flex-col gap-1">
-                        <label class="ml-2" for="">Name</label>
-                        <input class="md:bg-dark bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg" type="text">
+                        <label class="ml-2 text-lg" for="">Name</label>
+                        <input class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg" type="text">
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label class="ml-2" for="">Email</label>
-                        <input class="md:bg-dark bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg" type="email">
+                        <label class="ml-2 text-lg" for="">Email</label>
+                        <input class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg" type="email">
                     </div>
                     <div class="flex flex-col gap-1">
-                        <label class="ml-2" for="">Message</label>
-                        <textarea class="md:bg-dark bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg" name="" id="" cols="30" rows="10"></textarea>
+                        <label class="ml-2 text-lg" for="">Message</label>
+                        <textarea class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg" name="" id="" cols="30" rows="10"></textarea>
                     </div>
+                    <div class="flex items-center justify-center">
+                        <button class="bg-brand py-2 w-full rounded-lg font-bold text-darkest ">Submit</button>
+                    </div>
+
                 </form>
             </div>
         </section>
