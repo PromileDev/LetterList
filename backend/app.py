@@ -8,6 +8,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 app.config["JWT_SECRET_KEY"] = "tu_clave_secreta_segura"  # Cambia esto por algo más seguro
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=1)
 jwt = JWTManager(app)
 
 # Rutas de autenticación
@@ -76,6 +77,13 @@ def get_websites():
     websites = db.get_all_websites(user_id)
     return jsonify(websites), 200
 
+
+@app.route('/website_edit', methods=['POST'])
+@jwt_required()
+def get_website():
+    data = request.get_json()
+    website = db.get_website(data['id_page'])
+    return jsonify(website), 200
 
 
 @app.route("/settings", methods=['POST'])

@@ -38,16 +38,13 @@ const showSite = (name, id) => {
     id_page.value = id;
 }
 
-const getFoto = () => {
-    return fotos[Math.floor(Math.random() * fotos.length)];
-}
-
 onMounted(() => {
     fetchWebInfo();
 });
 
 const editPage = (id) => {
-    console.log(id);
+    localStorage.setItem('id_page', id.id_page);
+    window.location.href = '/edit';
 }
 
 </script>
@@ -69,12 +66,12 @@ const editPage = (id) => {
                 v-for="(website) in websites"
                 :key="website.id"
                 >
-                <img :src="website.foto" class="w-[150px] md:w-[100px]  mx-auto" alt="Website Image" />
-                {{ website.name }}
+                <img :src="website.foto" class="w-[150px] md:w-[100px] mx-auto" alt="Website Image" />
+                <span>{{ website.name }}</span>
             </div>
         </div>
         <div v-if="nameTitle" class="mt-14 md:mt-0">
-            <button @click="editPage(id_page.value)" type="button" class="md:ml-4 py-2 px-3 bg-mid rounded-lg md:mt-10 w-full md:w-auto">
+            <button @click="editPage({ id_page })" type="button" class="md:ml-4 py-2 px-3 bg-mid rounded-lg md:mt-10 w-full md:w-auto mb-10">
                 Edit Page
             </button>
         </div>
