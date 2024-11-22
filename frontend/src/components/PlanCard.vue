@@ -22,6 +22,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    URL: {
+      type: String,
+      required: true,
+    },
   },
 };
 </script>
@@ -58,11 +62,12 @@ export default {
 
     <!-- Botón -->
     <div class="flex justify-end mt-3">
-      <button
+      <a
         class="bg-brand text-darkest px-6 py-3 rounded-md shadow-md hover:bg-light transition-colors"
+        href= '{{ URL }}'
       >
         Select Plan
-      </button>
+      </a>
     </div>
   </div>
 </template>
