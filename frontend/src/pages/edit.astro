@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import EditPage from "../components/EditPage.vue";
+import Navbar from "../components/Navbar.astro";
+---
+
+<Layout title="Letter List">
+    <main>
+        <Navbar />
+        <EditPage client:load />
+    </main>
+</Layout>

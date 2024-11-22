@@ -110,6 +110,14 @@ def get_all_websites(user_id):
     websites = query("SELECT * FROM websites where user_id = ?", (user_id,))
     return [dict(row) for row in websites]
 
+def get_website(id_page):
+    row =  query(
+        "SELECT * FROM websites WHERE id = ?",
+        (id_page,),
+        one=True
+    )
+    return dict(row)
+
 def add_section(name, website_id):
     query(
         "INSERT INTO sections (name, website_id) VALUES (?, ?)",

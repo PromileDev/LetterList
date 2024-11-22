@@ -8,8 +8,10 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 app.config["JWT_SECRET_KEY"] = "tu_clave_secreta_segura"  # Cambia esto por algo más seguro
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(hours=1)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = datetime.timedelta(days=1)
 jwt = JWTManager(app)
+
+
 
 # Rutas de autenticación
 @app.route('/register', methods=['POST'])
@@ -20,7 +22,6 @@ def register():
         return jsonify({"message": "User registered successfully!"}), 201
     else:
         return jsonify({"message": "Email already registered!"}), 400
-
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -31,7 +32,7 @@ def login():
     access_token = create_access_token(identity=user['id'])
     return jsonify({"access_token": access_token}), 200
 
-# Ruta protegida
+# Extraer token user
 @app.route('/protected', methods=['GET'])
 @jwt_required()
 def protected():
@@ -58,13 +59,16 @@ def get_products():
     products = db.get_all_products()
     return jsonify(products), 200
 
+
+## Operaciones con websites
+# Añadir website
 @app.route('/website', methods=['POST'])
 @jwt_required()
 def add_website():
     data = request.get_json()
     db.add_website(data['name'], data['user_id'])
     return jsonify({"message": "Website added successfully!"}), 201
-
+# Obtener websites
 @app.route('/websites', methods=['GET'])
 @jwt_required()
 def get_websites():
@@ -72,7 +76,24 @@ def get_websites():
     print (user_id)
     websites = db.get_all_websites(user_id)
     return jsonify(websites), 200
+# Pagina de edicion de website
+@app.route('/website_edit', methods=['POST'])
+@jwt_required()
+def get_website():
+    data = request.get_json()
+    website = db.get_website(data['id_page'])
+    return jsonify(website), 200
 
+## Sections
+@app.route('/sections', methods=['POST'])
+@jwt_required()
+def get_sections():
+    data = request.get_json()
+    sections = db.get_all_sections(data["id_page"])
+    return jsonify(sections), 200
+
+
+# Settings
 @app.route("/settings", methods=['POST'])
 @jwt_required()
 def change_user():
@@ -81,7 +102,6 @@ def change_user():
     user = db.get_user_by_email_and_password(data['email'], data['password'])
     if not user:
         return jsonify({"message": "Invalid credentials!"}), 401
-    print("HASTA AQUI LLEGA")
     db.change_user(data['name'], data['lastname'], user_id)
     return jsonify({"message": "User changed successfully!"}), 201
 
