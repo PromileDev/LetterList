@@ -2,13 +2,13 @@
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
-
 const email = ref('');
 const name = ref('');
 const lastname = ref('');
 const loading = ref(true);
 const error = ref('');
 const login = ref(false);
+const theme = ref(false);
 const dropDownVisible = ref(false);
 
 const signOut = () => {
@@ -45,6 +45,10 @@ const showMenu = () => {
   dropDownVisible.value = !dropDownVisible.value;
 };
 
+const showTheme = () => {
+  theme.value = !theme.value;
+}
+
 onMounted(() => {
   fetchUserInfo();
 });
@@ -65,8 +69,7 @@ onMounted(() => {
           </div>
           <ul class="py-2 text-sm text-gray-700 px-1">
             <li>
-              <a href="#" class="rounded-lg block px-4 py-2 hover:bg-gray-100 ">Plans</a>
-
+              <a href="/plans" class="rounded-lg block px-4 py-2 hover:bg-gray-100">Plans</a>
             </li>
             <li>
               <a href="/settings" class="rounded-lg block px-4 py-2 hover:bg-gray-100 ">Settings</a>
