@@ -61,6 +61,7 @@ def get_products():
 
 
 ## Operaciones con websites
+
 # Añadir website
 @app.route('/website', methods=['POST'])
 @jwt_required()
@@ -69,6 +70,8 @@ def add_website():
     db.add_website(data['name'], data['user_id'])
     return jsonify({"message": "Website added successfully!"}), 201
 # Obtener websites
+
+
 @app.route('/websites', methods=['GET'])
 @jwt_required()
 def get_websites():
