@@ -67,6 +67,7 @@ def get_products():
 @jwt_required()
 def add_website():
     data = request.get_json()
+    user_id = get_jwt_identity()    
     db.add_website(data['name'], data['user_id'])
     return jsonify({"message": "Website added successfully!"}), 201
 # Obtener websites
