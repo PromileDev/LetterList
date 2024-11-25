@@ -9,6 +9,7 @@ def new_client(name):
     if not os.path.exists(ruta_final):
         os.mkdir(ruta_final)
 
+
 def new_page(name, client):
-    ruta_final = os.path.join(directorio_padre, "frontend", "src", "pages", "clients", client, name)
+    ruta_final = os.path.join(directorio_padre, "frontend", "src", "pages", "clients", str(client), str(name))
     os.mkdir(ruta_final)
