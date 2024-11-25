@@ -39,8 +39,7 @@ const handleLogin = async () => {
         <div class="mx-auto flex flex-col w-[80%]">
           <label class="text-dark md:text-lightest dark:md:text-dark dark:text-lightest text-xl mb-4 ml-2" for="email">Email</label>
           <input 
-            class="bg-darkest py-1 rounded-lg text-white pl-2"
-            type="email" 
+          class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg"            type="email" 
             id="email" 
             v-model="email" 
             required 
@@ -50,8 +49,7 @@ const handleLogin = async () => {
         <div class="mx-auto flex flex-col w-[80%]">
           <label class="text-dark md:text-lightest dark:md:text-dark dark:text-lightest text-xl mb-4 ml-2" for="password">Password</label>
           <input
-            class="bg-darkest py-1 rounded-lg text-white pl-2"
-            type="password" 
+          class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg"            type="password" 
             id="password" 
             v-model="password" 
             required 

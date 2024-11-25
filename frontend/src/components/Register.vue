@@ -40,9 +40,9 @@ const handleRegister = async () => {
       <form @submit.prevent="handleRegister" class="flex flex-col gap-6 w-full md:w-[80%]">        
         <div class="flex justify-between w-full">
             <div class="flex flex-col w-[45%]">
-                <label class="text-lightest text-xl mb-4 ml-2 md:text-darkest" for="name">Name</label>
+                <label class="ml-2 text-lg text-dark md:text-lightest dark:md:text-dark dark:text-lightest" for="name">Name</label>
                 <input 
-                    class="bg-darkest py-1 rounded-lg text-white pl-2"
+                    class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg"
                     type="text" 
                     id="name" 
                     v-model="name" 
@@ -50,10 +50,9 @@ const handleRegister = async () => {
                 >
             </div>
             <div class="flex flex-col w-[45%]">
-                <label class="text-lightest text-xl mb-4 ml-2 md:text-darkest" for="name">Lastname</label>
+                <label class="ml-2 text-lg text-dark md:text-lightest dark:md:text-dark dark:text-lightest" for="name">Lastname</label>
                 <input 
-                    class="bg-darkest py-1 rounded-lg text-white pl-2"
-                    type="text" 
+                    class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg"                    type="text" 
                     id="lastname" 
                     v-model="lastname" 
                     required 
@@ -62,9 +61,9 @@ const handleRegister = async () => {
         </div>
         
         <div class="mx-auto flex flex-col w-full">
-          <label class="text-lightest text-xl mb-4 ml-2 md:text-darkest" for="email">Email</label>
+          <label class="ml-2 text-lg text-dark md:text-lightest dark:md:text-dark dark:text-lightest" for="email">Email</label>
           <input 
-            class="bg-darkest py-1 rounded-lg text-white pl-2"
+            class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg"
             type="email" 
             id="email" 
             v-model="email" 
@@ -73,9 +72,9 @@ const handleRegister = async () => {
         </div>
   
         <div class="mx-auto flex flex-col w-full">
-          <label class="text-lightest text-xl mb-4 ml-2 md:text-darkest" for="password">Password</label>
+          <label class="ml-2 text-lg text-dark md:text-lightest dark:md:text-dark dark:text-lightest" for="password">Password</label>
           <input
-            class="bg-darkest py-1 rounded-lg text-white pl-2"
+            class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg"
             type="password" 
             id="password" 
             v-model="password" 
@@ -83,9 +82,9 @@ const handleRegister = async () => {
           >
         </div>
         <div class="mx-auto flex flex-col w-full">
-          <label class="text-lightest text-xl mb-4 ml-2 md:text-darkest" for="password">Confirm password</label>
+          <label class="ml-2 text-lg text-dark md:text-lightest dark:md:text-dark dark:text-lightest" for="password">Confirm password</label>
           <input
-            class="bg-darkest py-1 rounded-lg text-white pl-2"
+            class="md:bg-darkest text-darkest md:text-light bg-light focus:ring-darkest focus:border-darkest md:focus:ring-mid md:focus:border-mid border-transparent rounded-lg"
             type="password" 
             id="password" 
             v-model="confirmPassowrd" 
