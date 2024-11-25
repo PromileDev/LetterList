@@ -59,6 +59,22 @@ def get_products():
     products = db.get_all_products()
     return jsonify(products), 200
 
+# Obtener todos los productos de una sección específica (POST)
+@app.route('/products_section', methods=['POST'])
+@jwt_required()
+def get_products_section():
+    data = request.get_json()
+    if not data or "section_id" not in data:
+        return jsonify({"error": "El parámetro 'section_id' es obligatorio."}), 400
+    
+    try:
+        products = db.get_all_products_by_section(data["section_id"])
+        return jsonify(products), 200
+    except Exception as e:
+        return jsonify({"error": f"Error al obtener los productos: {str(e)}"}), 500
+
+
+
 
 ## Operaciones con websites
 
@@ -87,13 +103,19 @@ def get_website():
     website = db.get_website(data['id_page'])
     return jsonify(website), 200
 
-## Sections
+# Obtener todas las secciones de una página (POST)
 @app.route('/sections', methods=['POST'])
 @jwt_required()
 def get_sections():
     data = request.get_json()
-    sections = db.get_all_sections(data["id_page"])
-    return jsonify(sections), 200
+    if not data or "id_page" not in data:
+        return jsonify({"error": "El parámetro 'id_page' es obligatorio."}), 400
+    
+    try:
+        sections = db.get_all_sections(data["id_page"])
+        return jsonify(sections), 200
+    except Exception as e:
+        return jsonify({"error": f"Error al obtener las secciones: {str(e)}"}), 500
 
 
 # Settings
