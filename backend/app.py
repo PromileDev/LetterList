@@ -49,29 +49,36 @@ def protected():
 @app.route('/products', methods=['POST'])
 @jwt_required()
 def add_product():
+    # Agregar un producto
     data = request.get_json()
+    print("Datos recibidos para agregar producto:", data)  # Ver qué datos se están recibiendo
+    if not all(key in data for key in ["name", "section", "website"]):
+        return jsonify({"error": "Faltan campos necesarios para agregar el producto."}), 400
     db.add_product(data['name'], data['section'], data['website'])
     return jsonify({"message": "Product added successfully!"}), 201
 
-@app.route('/products', methods=['GET'])
+
+@app.route('/products/list', methods=['POST'])
 @jwt_required()
 def get_products():
-    products = db.get_all_products()
-    return jsonify(products), 200
-
-# Obtener todos los productos de una sección específica (POST)
-@app.route('/products_section', methods=['POST'])
-@jwt_required()
-def get_products_section():
+    # Obtener productos por id_page
     data = request.get_json()
-    if not data or "section_id" not in data:
-        return jsonify({"error": "El parámetro 'section_id' es obligatorio."}), 400
-    
+    print("Datos recibidos para obtener productos:", data)  # Ver qué datos se están recibiendo
+
+    id_page = data.get('id_page')
+    if not id_page:
+        return jsonify({"error": "El parámetro 'id_page' es obligatorio."}), 400
+
     try:
-        products = db.get_all_products_by_section(data["section_id"])
+        products = db.get_all_products(id_page)  # Asegúrate que esta función esté funcionando correctamente
+        
+        if not products:
+            return jsonify({"message": "No se encontraron productos."}), 404  # En caso de que no haya productos
+        
         return jsonify(products), 200
     except Exception as e:
-        return jsonify({"error": f"Error al obtener los productos: {str(e)}"}), 500
+        print(f"Error al obtener productos: {str(e)}")  # Ver si ocurre algún error en la base de datos
+        return jsonify({"error": "Error interno al obtener los productos."}), 500
 
 
 

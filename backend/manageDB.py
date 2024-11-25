@@ -95,9 +95,9 @@ def add_product(name, section, website):
         commit=True
     )
 
-def get_all_products():
-    products = query("SELECT * FROM products")
-    return [dict(row) for row in products]
+def get_all_products(id_page):
+    products = query("SELECT * FROM products WHERE website = ?", (id_page,))
+    return [dict(row) for row in products]  # Convertir cada fila en un diccionario
 
 def add_website(name, user_id):
     query(

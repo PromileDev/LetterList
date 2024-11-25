@@ -3,7 +3,8 @@
         <!-- Sección del encabezado -->
         <div class="mt-24 mb-12 text-light mx-auto flex flex-col items-center w-full">
             <h1 class="text-6xl font-bold">Cafetería Pepe</h1>
-            <h1 class="text-6xl font-bold">{{ sections }}</h1>
+            <h1 class="text-xl font-bold">{{ products }}</h1>
+            <h1 class="text-xl font-bold">{{ sections }}</h1>
 
 
         </div>
@@ -108,6 +109,7 @@ const activeTab = ref(''); // Inicializar vacío para la primera sección dinám
 const showModal = ref(false);
 const newSectionName = ref('');
 const nameError = ref(false);
+const products = reactive({}); // Contendrá todos los productos
 const sections = reactive({}); // Contendrá productos por sección
 const sectionNames = ref({}); // Contendrá nombres de las secciones
 const errorMessage = ref('');
@@ -121,27 +123,45 @@ const changeTab = async (sectionId) => {
     }
 };
 
-
-const fetchProductsBySection = async (sectionId) => {
+const fetchProducts = async() => {
     const token = localStorage.getItem('access_token');
+    const idPage = localStorage.getItem('id_page');
+
+    console.log("Token:", token);  // Verificar que el token está en localStorage
+    console.log("idPage:", idPage);  // Verificar que el idPage está en localStorage
+
+    if (!token || !idPage) {
+        console.error("Token o id_page no están presentes en localStorage");
+        return;
+    }
 
     try {
         const response = await axios.post(
-            "http://127.0.0.1:5000/products_section",
-            { section_id: sectionId },
+            "http://127.0.0.1:5000/products/list",
+            { id_page: idPage },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             }
         );
+        const data = response.data;
 
+        // Guardar los productos en la variable reactiva
+        data.forEach((product) => {
+            products[product.name] = product;
+        });
 
-        // Asocia los productos a la sección
-        sections[sectionId] = response.data;
+        // Organizar los productos por sección
+        for (const product of data) {
+            if (sections[product.section_id]) {
+                sections[product.section_id].push(product);
+            }
+        }
+
     } catch (err) {
         console.error('Error al obtener productos:', err.response?.data || err.message);
-        errorMessage.value = 'Error al cargar los productos de la sección. Por favor, intenta nuevamente.';
+        errorMessage.value = 'Error al cargar los productos. Por favor, intenta nuevamente.';
     }
 };
 
@@ -222,5 +242,6 @@ const addNewSection = async () => {
 // Cargar datos iniciales al montar el componente
 onMounted(() => {
     fetchSectionNames();
+    fetchProducts();
 });
 </script>
