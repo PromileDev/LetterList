@@ -59,7 +59,7 @@ const editPage = (id) => {
             <span v-else>{{ nameTitle }}</span>
         </div>
         <div  class="mt-10 md:h-40 flex flex-col md:flex-row gap-4">
-            <a class="w-full md:w-40 h-52 md:h-full border-2 border-light flex items-center justify-center rounded-lg hover:shadow-lg" href=""><svg  xmlns="http://www.w3.org/2000/svg"  width="40"  height="40"  viewBox="0 0 24 24"  fill="none"  stroke="white"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg></a>
+            <a class="w-full md:w-40 h-52 md:h-full border-2 border-light flex items-center justify-center rounded-lg hover:shadow-lg" href="website"><svg  xmlns="http://www.w3.org/2000/svg"  width="40"  height="40"  viewBox="0 0 24 24"  fill="none"  stroke="white"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-plus"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg></a>
             <div
                 @click="showSite(website.name, website.id)"
                 class="w-full md:w-40 h-52 md:h-full border-2 border-light rounded-lg hover:shadow-lg cursor-pointer flex justify-between flex-col p-1 dark:text-light md:text-mid text-darkest"
