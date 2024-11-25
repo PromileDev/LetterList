@@ -27,13 +27,25 @@ def create_tables():
     )
     ''')
 
+    # Crear tabla 'templates'
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS templates (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT NOT NULL,
+        img TEXT NOT NULL
+    )
+    ''')
+                   
+
     # Crear tabla 'websites'
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS websites (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
+        template_id INTEGER,
         user_id INTEGER NOT NULL,
-        FOREIGN KEY (user_id) REFERENCES users(id)
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        FOREIGN KEY (template_id) REFERENCES templates(id)
     )
     ''')
 
@@ -157,3 +169,4 @@ def change_user(name, lastname, user_id):
         commit=True
     )
 
+create_tables()
