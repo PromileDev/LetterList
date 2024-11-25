@@ -35,9 +35,9 @@ const handleLogin = async () => {
 
 <template>
     <div class="flex flex-col py-4 px-3 w-full md:w-[80%]">
-      <form @submit.prevent="handleLogin" class="flex flex-col gap-10 md:bg-light md:py-10 md:rounded-lg md:shadow-lg">        
+      <form @submit.prevent="handleLogin" class="flex flex-col gap-10 md:bg-dark dark:md:bg-light md:py-10 md:rounded-lg md:shadow-lg">        
         <div class="mx-auto flex flex-col w-[80%]">
-          <label class="text-lightest text-xl mb-4 ml-2 md:text-darkest" for="email">Email</label>
+          <label class="text-dark md:text-lightest dark:md:text-dark dark:text-lightest text-xl mb-4 ml-2" for="email">Email</label>
           <input 
             class="bg-darkest py-1 rounded-lg text-white pl-2"
             type="email" 
@@ -48,7 +48,7 @@ const handleLogin = async () => {
         </div>
   
         <div class="mx-auto flex flex-col w-[80%]">
-          <label class="text-lightest text-xl mb-4 ml-2 md:text-darkest" for="password">Password</label>
+          <label class="text-dark md:text-lightest dark:md:text-dark dark:text-lightest text-xl mb-4 ml-2" for="password">Password</label>
           <input
             class="bg-darkest py-1 rounded-lg text-white pl-2"
             type="password" 

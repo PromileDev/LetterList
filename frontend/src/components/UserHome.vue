@@ -62,25 +62,25 @@ onMounted(() => {
         <span class="text-lg">{{ name }} {{ lastname }}</span>
         <img src="/fotos/avatar.png" class="w-10 h-10 rounded-full" alt="">
         <div v-if="dropDownVisible"
-          class="fixed top-[70px] md:right-5 bg-white divide-y divide-gray-100 rounded-lg shadow max-w-52">
-          <div class="px-4 py-3 text-sm text-gray-900 dark:text-white">
+          class="fixed top-[70px] md:right-5 bg-white dark:bg-mid divide-y divide-gray-100 dark:divide-light rounded-lg shadow max-w-52">
+          <div class="px-4 py-3 text-sm text-gray-900">
             <div>{{ name }} {{ lastname }}</div>
             <div class="font-medium truncate">{{ email }}</div>
           </div>
           <ul class="py-2 text-sm text-gray-700 px-1">
             <li>
-              <a href="/plans" class="rounded-lg block px-4 py-2 hover:bg-gray-100">Plans</a>
+              <a href="/plans" class="rounded-lg block px-4 py-2 hover:bg-gray-100 dark:text-gray-900">Plans</a>
             </li>
             <li>
-              <a href="/settings" class="rounded-lg block px-4 py-2 hover:bg-gray-100 ">Settings</a>
+              <a href="/settings" class="rounded-lg block px-4 py-2 hover:bg-gray-100 dark:text-gray-900">Settings</a>
             </li>
             <li>
-              <a href="#" class="rounded-lg block px-4 py-2 hover:bg-gray-100">Demos</a>
+              <a href="#" class="rounded-lg block px-4 py-2 hover:bg-gray-100 dark:text-gray-900">Demos</a>
             </li>
           </ul>
           <div class="py-1 px-1">
             <button type="button" @click="signOut"
-              class="w-full flex block px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white hover:rounded-lg">Sign
+              class="dark:text-gray-900 w-full flex block px-4 py-2 text-sm text-gray-700 hover:bg-red-500 hover:text-white hover:rounded-lg">Sign
               out</button>
           </div>
         </div>
