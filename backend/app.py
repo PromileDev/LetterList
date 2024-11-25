@@ -3,6 +3,7 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 import datetime
 import manageDB as db
 from flask_cors import CORS
+import clients
 
 # Configuración de la app Flask
 app = Flask(__name__)
@@ -22,6 +23,7 @@ def register():
         return jsonify({"message": "User registered successfully!"}), 201
     else:
         return jsonify({"message": "Email already registered!"}), 400
+    
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -38,6 +40,7 @@ def login():
 def protected():
     user_id = get_jwt_identity()
     user = db.get_user_by_id(user_id)
+    clients.new_client(user_id)
     return jsonify({
         "name": user['name'],
         "lastname": user['lastname'],
@@ -61,7 +64,6 @@ def get_products():
 
 
 ## Operaciones con websites
-
 # Añadir website
 @app.route('/website', methods=['POST'])
 @jwt_required()
