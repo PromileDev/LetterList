@@ -7,7 +7,7 @@
 
         <!-- Tabs -->
         <div class="w-11/12 mx-auto">
-            <ul class="flex flex-wrap text-sm font-medium text-center text-brand border-b border-mid">
+            <ul class="flex flex-wrap text-sm font-medium text-center text-brand border-b border-mid cursor-pointer">
                 <!-- Mostrar las tabs correctamente -->
                 <li v-for="(items, section) in sections" :key="section" class="me-2">
                     <a
@@ -93,61 +93,52 @@
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            activeTab: 'bebidas', // Tab activa por defecto
-            showModal: false, // Para alternar la visibilidad del modal
-            newSectionName: '', // Almacenar el nombre de la nueva sección
-            nameError: false, // Mostrar error de validación
-            sections: {
-                bebidas: [
-                    { name: "Café Americano", description: "Café americano con un toque de leche", price: "1.50€" },
-                    { name: "Café con leche", description: "Café con leche caliente", price: "1.20€" }
-                ],
-                entrantes: [
-                    { name: "Ensalada César", description: "Lechuga, pollo, crutones y salsa césar", price: "5.50€" },
-                    { name: "Patatas bravas", description: "Patatas bravas con salsa picante", price: "4.00€" }
-                ],
-                platos: [
-                    { name: "Hamburguesa", description: "Hamburguesa de ternera con queso y bacon", price: "7.50€" },
-                    { name: "Pizza Margarita", description: "Pizza con tomate, mozzarella y albahaca", price: "6.00€" }
-                ],
-                postres: [
-                    { name: "Tarta de queso", description: "Tarta de queso con mermelada de frutos rojos", price: "3.50€" },
-                    { name: "Helado", description: "Helado de vainilla con sirope de chocolate", price: "2.50€" }
-                ]
-            },
-            sectionNames: {
-                bebidas: "Bebidas y Cafés",
-                entrantes: "Entrantes",
-                platos: "Platos principales",
-                postres: "Postres"
-            }
-        };
-    },
-    methods: {
-        // Método para alternar la visibilidad del modal
-        toggleModal() {
-            this.showModal = !this.showModal;
-            this.nameError = false; // Resetear el error al alternar el modal
-        },
-        
-        // Método para añadir una nueva sección con un nombre
-        addNewSection() {
-            // Verificar si el nombre está vacío o ya existe
-            if (this.newSectionName === '' || this.sections[this.newSectionName]) {
-                this.nameError = true; // Mostrar error si el nombre está vacío o es duplicado
-            } else {
-                // Añadir la nueva sección
-                this.$set(this.sections, this.newSectionName, []); // Añadir la nueva sección al objeto sections
-                this.sectionNames[this.newSectionName] = this.newSectionName; // Opcionalmente, actualizar el objeto sectionNames con el nombre amigable
-                this.newSectionName = ''; // Resetear el campo de entrada
-                this.toggleModal(); // Cerrar el modal después de añadir la sección
-            }
-        }
+<script setup> 
+import {ref} from 'vue';
+const activeTab = ref('bebidas');
+const showModal = ref(false);
+const newSectionName = ref('');
+const nameError = ref(false);
 
+const sections = ref({
+    bebidas: [
+        { name: "Café Americano", description: "Café americano con un toque de leche", price: "1.50€" },
+        { name: "Café con leche", description: "Café con leche caliente", price: "1.20€" }
+    ],
+    entrantes: [
+        { name: "Ensalada César", description: "Lechuga, pollo, crutones y salsa césar", price: "5.50€" },
+        { name: "Patatas bravas", description: "Patatas bravas con salsa picante", price: "4.00€" }
+    ],
+    platos: [
+        { name: "Hamburguesa", description: "Hamburguesa de ternera con queso y bacon", price: "7.50€" },
+        { name: "Pizza Margarita", description: "Pizza con tomate, mozzarella y albahaca", price: "6.00€" }
+    ],
+    postres: [
+        { name: "Tarta de queso", description: "Tarta de queso con mermelada de frutos rojos", price: "3.50€" },
+        { name: "Helado", description: "Helado de vainilla con sirope de chocolate", price: "2.50€" }
+    ]
+});
+
+const sectionNames = ref({
+    bebidas: "Bebidas y Cafés",
+    entrantes: "Entrantes",
+    platos: "Platos principales",
+    postres: "Postres"
+});
+
+const toggleModal = () => {
+    showModal.value = !showModal.value;
+    nameError.value = false; // Resetear el error al alternar el modal
+};
+
+const addNewSection = () => {
+    if (newSectionName.value === '' || sections.value[newSectionName.value]) {
+        nameError.value = true;
+    } else {
+        sections.value[newSectionName.value] = [];
+        sectionNames.value[newSectionName.value] = newSectionName.value;
+        newSectionName.value = '';
+        toggleModal();
     }
 };
 </script>
