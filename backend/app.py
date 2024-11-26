@@ -49,13 +49,14 @@ def protected():
 @app.route('/products', methods=['POST'])
 @jwt_required()
 def add_product():
-    # Agregar un producto
     data = request.get_json()
-    print("Datos recibidos para agregar producto:", data)  # Ver qué datos se están recibiendo
-    if not all(key in data for key in ["name", "section", "website"]):
+    if not all(key in data for key in ["name", "price", "section_id", "website"]):
         return jsonify({"error": "Faltan campos necesarios para agregar el producto."}), 400
-    db.add_product(data['name'], data['section'], data['website'])
-    return jsonify({"message": "Product added successfully!"}), 201
+    try:
+        db.add_product(data['name'], data['price'], data['section_id'], data['website'])
+        return jsonify({"message": "Producto añadido correctamente."}), 201
+    except Exception as e:
+        return jsonify({"error": f"Error al añadir producto: {str(e)}"}), 500
 
 
 @app.route('/products/list', methods=['POST'])
@@ -123,6 +124,20 @@ def get_sections():
         return jsonify(sections), 200
     except Exception as e:
         return jsonify({"error": f"Error al obtener las secciones: {str(e)}"}), 500
+    
+# Añadir sección a una página (POST)
+@app.route('/section/add', methods=['POST'])
+@jwt_required()
+def add_section():
+    data = request.get_json()
+    if not all(key in data for key in ["name", "id_page"]):
+        return jsonify({"error": "Faltan campos necesarios para agregar la sección."}), 400
+    
+    try:
+        db.add_section(data["name"], data["id_page"])
+        return jsonify({"message": "Sección agregada exitosamente."}), 201
+    except Exception as e:
+        return jsonify({"error": f"Error al agregar la sección: {str(e)}"}), 500
 
 
 # Settings

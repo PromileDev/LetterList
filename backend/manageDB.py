@@ -100,10 +100,10 @@ def get_user_by_id(user_id):
         one=True
     )
 
-def add_product(name, section, website):
+def add_product(name, price, section_id, website):
     query(
-        "INSERT INTO products (name, section, website) VALUES (?, ?, ?)",
-        (name, section, website),
+        "INSERT INTO products (name, price, section_id, website) VALUES (?, ?, ?,?)",
+        (name, price, section_id, website),
         commit=True
     )
 
