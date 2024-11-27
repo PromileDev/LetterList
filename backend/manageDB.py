@@ -107,6 +107,13 @@ def add_product(name, price, section_id, website):
         commit=True
     )
 
+def delete_product(product_id):
+    query(
+        "DELETE FROM products WHERE id = ?",
+        (product_id,),
+        commit=True
+    )
+
 def get_all_products(id_page):
     products = query("SELECT * FROM products WHERE website = ?", (id_page,))
     return [dict(row) for row in products]  # Convertir cada fila en un diccionario

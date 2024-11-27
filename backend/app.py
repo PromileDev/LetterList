@@ -80,6 +80,21 @@ def get_products():
     except Exception as e:
         print(f"Error al obtener productos: {str(e)}")  # Ver si ocurre algún error en la base de datos
         return jsonify({"error": "Error interno al obtener los productos."}), 500
+    
+# Borrar producto
+@app.route('/product/delete', methods=['POST'])
+@jwt_required()
+def delete_product():
+    data = request.get_json()
+    if not data or "id" not in data:
+        return jsonify({"error": "El parámetro 'id' es obligatorio."}), 400
+    
+    try:
+        db.delete_product(data["id"])
+        return jsonify({"message": "Producto eliminado exitosamente."}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error al eliminar el producto: {str(e)}"}), 500
+
 
 
 

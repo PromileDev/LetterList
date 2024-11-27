@@ -3,6 +3,8 @@
         <!-- Sección del encabezado -->
         <div class="mt-24 mb-12 text-light mx-auto flex flex-col items-center w-full">
             <h1 class="text-6xl font-bold">Cafetería Pepe</h1>
+            <h1>{{ products }}</h1>
+            <h1>{{ sections }}</h1>
 
         </div>
 
@@ -58,8 +60,9 @@
                             </div>
                             <div class="flex justify-end mt-3 space-x-2">
                                 <!-- Botón Trash -->
-                                <a @click.prevent="deleteProduct" class="bg-red-500 text-lightest p-2 rounded-full shadow-md hover:bg-red-600 transition-colors" aria-label="Eliminar">
+                                <a @click.prevent="deleteProduct(item.id)" class="bg-red-500 text-lightest p-2 rounded-full shadow-md hover:bg-red-600 transition-colors" aria-label="Eliminar">
                                     <Trash class="w-4 h-4" />
+
                                 </a>
                                 <!-- Botón Edit -->
                                 <a @click.prevent="toggleModalEditProduct" class="bg-brand text-darkest p-2 rounded-full shadow-md hover:bg-brand-light transition-colors" aria-label="Editar">
@@ -157,6 +160,53 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal para editar un producto -->
+        <div v-if="showModalEditProduct" class="fixed inset-0 bg-darkest bg-opacity-50 flex justify-center items-center">
+            <div class="bg-mid p-6 rounded-lg shadow-lg w-96 text-darkest">
+                <h3 class="text-xl font-bold mb-4">Editar producto</h3>
+                <div>
+                    <label for="editProductName" class="block text-lg font-medium mb-2 text-dark">
+                        Nombre del producto
+                    </label>
+                    <input
+                        v-model="editProductName"
+                        type="text"
+                        id="editProductName"
+                        class="p-2 border border-light rounded-lg w-full mb-4 focus:ring-0 focus:border-brand"
+                        placeholder="Escribe el nombre"
+                        :class="{'border-red-500': nameError}"
+                    />
+                    <!-- Mensaje de error si el nombre es inválido -->
+                    <p v-if="nameError" class="text-red-500 text-sm">El nombre del producto no puede estar vacío o ser duplicado.</p>
+                </div>
+                <div>
+                    <label for="editProductPrice" class="block text-lg font-medium mb-2 text-dark">
+                        Precio del producto
+                    </label>
+                    <input
+                        v-model="editProductPrice"
+                        type="text"
+                        id="editProductPrice"
+                        class="p-2 border border-light rounded-lg w-full mb-4 focus:ring-0 focus:border-brand"
+                        placeholder="Escribe el precio"
+                        :class="{'border-red-500': nameError}"
+                    />
+                    <!-- Mensaje de error si el precio es inválido -->
+                    <p v-if="nameError" class="text-red-500 text-sm">El precio del producto no puede estar vacío o ser duplicado.</p>
+                </div>
+                <div class="flex justify-between">
+                    <!-- Botón Guardar -->
+                    <button @click="editProduct" class="px-4 py-2 bg-dark text-lightest rounded-lg hover:bg-brand hover:text-lightest">
+                        Guardar
+                    </button>
+                    <!-- Botón Cancelar -->
+                    <button @click="toggleModalEditProduct" class="px-4 py-2 bg-darkest opacity-50 hover:opacity-100 text-lightest hover:bg-red-500 rounded-lg">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -172,6 +222,9 @@ const showModalProduct = ref(false);
 const newProductName = ref('');
 const newProductPrice = ref('');
 const newSectionName = ref('');
+const showModalEditProduct = ref(false);
+const editProductName = ref('');
+const editProductPrice = ref('');
 const nameError = ref(false);
 const products = reactive({}); // Contendrá todos los productos
 const sections = reactive({}); // Contendrá productos por sección
@@ -214,7 +267,7 @@ const fetchProducts = async() => {
 
         // Guardar los productos en la variable reactiva
         data.forEach((product) => {
-            products[product.name] = product;
+            products[product.id] = product;
         });
 
         // Organizar los productos por sección
@@ -273,6 +326,11 @@ const toggleModalSection = () => {
 
 const toggleModalProduct = () => {
     showModalProduct.value = !showModalProduct.value;
+    nameError.value = false; // Resetear el error al alternar el modal
+};
+
+const toggleModalEditProduct = () => {
+    showModalEditProduct.value = !showModalEditProduct.value;
     nameError.value = false; // Resetear el error al alternar el modal
 };
 
@@ -353,8 +411,36 @@ const addNewProduct = async () => {
     }
 };
 
+const deleteProduct = async (id_Product) => {
+    const token = localStorage.getItem('access_token');
+    const idProduct = id_Product;
+
+    try {
+        const response = await axios.post(
+            "http://127.0.0.1:5000/product/delete",
+            { id: idProduct },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+    
+       //Borrar el producto de la lista local
+        const product = products[idProduct];
+        const sectionId = product.section_id;
+        const index = sections[sectionId].findIndex((item) => item.id === idProduct);
+        sections[sectionId].splice(index, 1);
+        delete products[idProduct];
+        successMessage.value = 'Producto eliminado correctamente.';
 
 
+    } catch (err) {
+    
+        console.error('Error al eliminar el producto:', err.response?.data || err.message);
+        errorMessage.value = 'Error al eliminar el producto. Por favor, intenta nuevamente.';
+    }
+};          
 
 // Cargar datos iniciales al montar el componente
 onMounted(() => {
