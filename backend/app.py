@@ -121,6 +121,20 @@ def get_websites():
     print (user_id)
     websites = db.get_all_websites(user_id)
     return jsonify(websites), 200
+# Borrar website
+@app.route('/website/delete', methods=['POST'])
+@jwt_required()
+def delete_website():
+    data = request.get_json()
+    if not data or "id" not in data:
+        return jsonify({"error": "No se pudo borrar la pagina"}), 400
+    try:
+        db.delete_website(data["id"])
+        return jsonify({"message": "Delete successfully."}), 200
+    except Exception as e:
+        return jsonify({"error": f"An error has ocurred: {str(e)}"}), 500
+
+
 # Pagina de edicion de website
 @app.route('/website_edit', methods=['POST'])
 @jwt_required()
@@ -169,7 +183,6 @@ def change_user():
         return jsonify({"message": "Invalid credentials!"}), 401
     db.change_user(data['name'], data['lastname'], user_id)
     return jsonify({"message": "User changed successfully!"}), 201
-
 
 
 # Iniciar el servidor
