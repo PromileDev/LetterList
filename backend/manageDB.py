@@ -100,16 +100,23 @@ def get_user_by_id(user_id):
         one=True
     )
 
-def add_product(name, section, website):
+def add_product(name, price, section_id, website):
     query(
-        "INSERT INTO products (name, section, website) VALUES (?, ?, ?)",
-        (name, section, website),
+        "INSERT INTO products (name, price, section_id, website) VALUES (?, ?, ?,?)",
+        (name, price, section_id, website),
         commit=True
     )
 
-def get_all_products():
-    products = query("SELECT * FROM products")
-    return [dict(row) for row in products]
+def delete_product(product_id):
+    query(
+        "DELETE FROM products WHERE id = ?",
+        (product_id,),
+        commit=True
+    )
+
+def get_all_products(id_page):
+    products = query("SELECT * FROM products WHERE website = ?", (id_page,))
+    return [dict(row) for row in products]  # Convertir cada fila en un diccionario
 
 def add_website(name, user_id):
     query(

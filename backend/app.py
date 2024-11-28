@@ -53,14 +53,53 @@ def protected():
 @jwt_required()
 def add_product():
     data = request.get_json()
-    db.add_product(data['name'], data['section'], data['website'])
-    return jsonify({"message": "Product added successfully!"}), 201
+    if not all(key in data for key in ["name", "price", "section_id", "website"]):
+        return jsonify({"error": "Faltan campos necesarios para agregar el producto."}), 400
+    try:
+        db.add_product(data['name'], data['price'], data['section_id'], data['website'])
+        return jsonify({"message": "Producto añadido correctamente."}), 201
+    except Exception as e:
+        return jsonify({"error": f"Error al añadir producto: {str(e)}"}), 500
 
-@app.route('/products', methods=['GET'])
+
+@app.route('/products/list', methods=['POST'])
 @jwt_required()
 def get_products():
-    products = db.get_all_products()
-    return jsonify(products), 200
+    # Obtener productos por id_page
+    data = request.get_json()
+    print("Datos recibidos para obtener productos:", data)  # Ver qué datos se están recibiendo
+
+    id_page = data.get('id_page')
+    if not id_page:
+        return jsonify({"error": "El parámetro 'id_page' es obligatorio."}), 400
+
+    try:
+        products = db.get_all_products(id_page)  # Asegúrate que esta función esté funcionando correctamente
+        
+        if not products:
+            return jsonify({"message": "No se encontraron productos."}), 404  # En caso de que no haya productos
+        
+        return jsonify(products), 200
+    except Exception as e:
+        print(f"Error al obtener productos: {str(e)}")  # Ver si ocurre algún error en la base de datos
+        return jsonify({"error": "Error interno al obtener los productos."}), 500
+    
+# Borrar producto
+@app.route('/product/delete', methods=['POST'])
+@jwt_required()
+def delete_product():
+    data = request.get_json()
+    if not data or "id" not in data:
+        return jsonify({"error": "El parámetro 'id' es obligatorio."}), 400
+    
+    try:
+        db.delete_product(data["id"])
+        return jsonify({"message": "Producto eliminado exitosamente."}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error al eliminar el producto: {str(e)}"}), 500
+
+
+
 
 
 ## Operaciones con websites
@@ -90,13 +129,33 @@ def get_website():
     website = db.get_website(data['id_page'])
     return jsonify(website), 200
 
-## Sections
+# Obtener todas las secciones de una página (POST)
 @app.route('/sections', methods=['POST'])
 @jwt_required()
 def get_sections():
     data = request.get_json()
-    sections = db.get_all_sections(data["id_page"])
-    return jsonify(sections), 200
+    if not data or "id_page" not in data:
+        return jsonify({"error": "El parámetro 'id_page' es obligatorio."}), 400
+    
+    try:
+        sections = db.get_all_sections(data["id_page"])
+        return jsonify(sections), 200
+    except Exception as e:
+        return jsonify({"error": f"Error al obtener las secciones: {str(e)}"}), 500
+    
+# Añadir sección a una página (POST)
+@app.route('/section/add', methods=['POST'])
+@jwt_required()
+def add_section():
+    data = request.get_json()
+    if not all(key in data for key in ["name", "id_page"]):
+        return jsonify({"error": "Faltan campos necesarios para agregar la sección."}), 400
+    
+    try:
+        db.add_section(data["name"], data["id_page"])
+        return jsonify({"message": "Sección agregada exitosamente."}), 201
+    except Exception as e:
+        return jsonify({"error": f"Error al agregar la sección: {str(e)}"}), 500
 
 
 # Settings
