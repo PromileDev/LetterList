@@ -47,6 +47,23 @@ const editPage = (id) => {
     window.location.href = '/edit';
 }
 
+const deletePage = async (id) => {
+    try{
+        const token = localStorage.getItem('access_token');
+        await axios.post("http://127.0.0.1:5000/website/delete", {
+            id: id.id_page
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        });
+        alert("Page deleted successfully");
+        window.location.href = '/';
+    }catch(err){
+        console.error('Error fetching user info:', err);
+    }
+}
+
 </script>
 
 <template>
@@ -70,9 +87,12 @@ const editPage = (id) => {
                 <span>{{ website.name }}</span>
             </div>
         </div>
-        <div v-if="nameTitle" class="mt-14 md:mt-0">
-            <button @click="editPage({ id_page })" type="button" class="text-lightest md:text-darkest dark:text-dark md:ml-4 py-2 px-3 bg-darkest md:bg-mid dark:bg-mid rounded-lg md:mt-10 w-full md:w-auto mb-10">
+        <div v-if="nameTitle" class="mt-14 md:mt-0 flex md:flex-row flex-col gap-4">
+            <button @click="editPage({ id_page })" type="button" class="text-lightest md:text-darkest dark:text-darkest md:ml-4 py-2 px-3 bg-darkest md:bg-mid dark:bg-mid rounded-lg md:mt-10 w-full md:w-auto md:mb-10">
                 Edit Page
+            </button>
+            <button @click="deletePage({id_page})" class="text-lightest md:text-darkest dark:text-darkest py-2 px-3 bg-darkest md:bg-mid dark:bg-mid rounded-lg md:mt-10 w-full md:w-auto mb-10">
+                Delate Page
             </button>
         </div>
         <div v-else class="mt-14 md:mt-0">

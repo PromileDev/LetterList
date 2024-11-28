@@ -137,6 +137,13 @@ def get_website(id_page):
     )
     return dict(row)
 
+def delete_website(id_page):
+    query(
+        "DELETE FROM websites WHERE id = ?",
+        (id_page,),
+        commit=True
+    )
+
 def add_section(name, website_id):
     query(
         "INSERT INTO sections (name, website_id) VALUES (?, ?)",

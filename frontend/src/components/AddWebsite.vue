@@ -37,7 +37,7 @@ const addWebsite = async () => {
         website_name.value = '';  // Limpiar el campo de entrada después de una solicitud exitosa
 
         // Redirigir a la página de edición después de un éxito
-        window.location.href = '/edit';  // Redirige a la página de edición
+        window.location.href = '/';
 
     } catch (err) {
         console.error('Error al agregar el sitio web:', err);
