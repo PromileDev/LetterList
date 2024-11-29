@@ -3,7 +3,8 @@ from flask_jwt_extended import JWTManager, create_access_token, jwt_required, ge
 import datetime
 import manageDB as db
 from flask_cors import CORS
-import clients
+import clients, createPage
+import os
 
 # Configuración de la app Flask
 app = Flask(__name__)
@@ -97,24 +98,6 @@ def delete_product():
         return jsonify({"message": "Producto eliminado exitosamente."}), 200
     except Exception as e:
         return jsonify({"error": f"Error al eliminar el producto: {str(e)}"}), 500
-    
-# Editar producto 
-@app.route('/product/edit', methods=['POST'])
-@jwt_required()
-def edit_product():
-    data = request.get_json()
-    if not all(key in data for key in ["name", "price", "id"]):
-        return jsonify({"error": "Faltan campos necesarios para editar el producto."}), 400
-    
-    try:
-        db.edit_product(data["name"], data["price"], data["id"])
-        return jsonify({"message": "Producto editado exitosamente."}), 200
-    except Exception as e:
-        return jsonify({"error": f"Error al editar el producto: {str(e)}"}), 500
-
-
-
-
 
 ## Operaciones con websites
 # Añadir website
@@ -123,8 +106,12 @@ def edit_product():
 def add_website():
     data = request.get_json()
     user_id = get_jwt_identity()    
-    db.add_website(data['name'], user_id)
+    web_id = db.add_website(data['name'], user_id)
     clients.new_page(data['name'], user_id)
+    astro_content = createPage.template1(data['name'])
+    astro_file = os.path.join(os.path.dirname(__file__), "..", "frontend", "src", "pages", "clients", str(user_id), str(data["name"]), "index.astro")
+    with open(astro_file, "w") as f:
+        f.write(astro_content)
     return jsonify({"message": "Website added successfully!"}), 201
 
 # Obtener websites
@@ -132,7 +119,6 @@ def add_website():
 @jwt_required()
 def get_websites():
     user_id = get_jwt_identity()
-    print (user_id)
     websites = db.get_all_websites(user_id)
     return jsonify(websites), 200
 # Borrar website
@@ -147,21 +133,18 @@ def delete_website():
         return jsonify({"message": "Delete successfully."}), 200
     except Exception as e:
         return jsonify({"error": f"An error has ocurred: {str(e)}"}), 500
-    
-#obtener website por id 
-@app.route('/website', methods=['POST'])
+#obtener una sola website
+@app.route('/website/single', methods=['POST'])
 @jwt_required()
-def get_website():
+def get_single_website():
     data = request.get_json()
     website = db.get_website(data['id_page'])
     return jsonify(website), 200
 
-
-
 # Pagina de edicion de website
 @app.route('/website_edit', methods=['POST'])
 @jwt_required()
-def get_website_edit():
+def get_website():
     data = request.get_json()
     website = db.get_website(data['id_page'])
     return jsonify(website), 200
@@ -208,12 +191,14 @@ def change_user():
     return jsonify({"message": "User changed successfully!"}), 201
 
 #get id
-@app.route("/user/id", methods=['GET'])
+@app.route("/user/website", methods=['POST'])
 @jwt_required()
 def get_id():
     user_id = get_jwt_identity()
-    return jsonify({"id": user_id}), 200
-
+    data = request.get_json()
+    name = db.get_website(data['id_page'])
+    name = name['name']
+    return jsonify({"id": user_id, "name": name}), 200
 
 # Iniciar el servidor
 if __name__ == '__main__':
