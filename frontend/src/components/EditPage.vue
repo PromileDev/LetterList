@@ -2,9 +2,7 @@
     <div>
         <!-- Sección del encabezado -->
         <div class="mt-24 mb-12 text-light mx-auto flex flex-col items-center w-full">
-            <h1 class="text-6xl font-bold">Cafetería Pepe</h1>
-            <h1>{{ products }}</h1>
-            <h1>{{ sections }}</h1>
+            <h1 class="text-6xl font-bold">{{ websiteName }}</h1>
 
         </div>
 
@@ -49,7 +47,7 @@
                 </a>
 
                 <!-- Verificar si hay productos -->
-                <div v-if="items.length > 0" class="flex flex-wrap -mx-2">
+                <div v-if="items.length > 0" class="flex flex-wrap -mx-2 mt-4">
                     <!-- Mostrar los items de cada sección -->
                     <div v-for="(item, index) in items" :key="index" class="w-full sm:w-1/2 px-2 mb-4">
                         <div class="bg-lightest p-4 rounded-lg shadow">
@@ -65,7 +63,7 @@
 
                                 </a>
                                 <!-- Botón Edit -->
-                                <a @click.prevent="toggleModalEditProduct" class="bg-brand text-darkest p-2 rounded-full shadow-md hover:bg-brand-light transition-colors" aria-label="Editar">
+                                <a @click.prevent="prepareEditProduct(item)" class="bg-brand text-darkest p-2 rounded-full shadow-md hover:bg-brand-light transition-colors" aria-label="Editar">
                                     <Edit class="w-4 h-4" />
                                 </a>
                             </div>
@@ -73,7 +71,7 @@
                     </div>
                 </div>
                 <!-- Mensaje si no hay productos -->
-                <div v-else class="text-center text-gray-500">
+                <div v-else class="text-center text-yellow-500 mt-4">
                     No hay productos disponibles en esta sección.
                 </div>
             </div>
@@ -212,10 +210,13 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue';
-import axios from 'axios';
+import axios, { all } from 'axios';
 import Trash from "./icons/Trash.vue";
 import Edit from './icons/Edit.vue';
 
+ 
+// Variables reactivas
+const websiteName = ref(''); // Nombre de la página
 const activeTab = ref(''); // Inicializar vacío para la primera sección dinámica
 const showModalSection = ref(false);
 const showModalProduct = ref(false);
@@ -225,13 +226,13 @@ const newSectionName = ref('');
 const showModalEditProduct = ref(false);
 const editProductName = ref('');
 const editProductPrice = ref('');
+const editProductId = ref(null)
 const nameError = ref(false);
 const products = reactive({}); // Contendrá todos los productos
 const sections = reactive({}); // Contendrá productos por sección
 const sectionNames = ref({}); // Contendrá nombres de las secciones
 const errorMessage = ref('');
 const successMessage = ref('');
-
 
 // Cambiar a una nueva tab
 const changeTab = async (sectionId) => {
@@ -440,11 +441,67 @@ const deleteProduct = async (id_Product) => {
         console.error('Error al eliminar el producto:', err.response?.data || err.message);
         errorMessage.value = 'Error al eliminar el producto. Por favor, intenta nuevamente.';
     }
-};          
+};       
+
+const prepareEditProduct = (product) => {
+    editProductId.value = product.id; // Se asigna el ID del producto seleccionado.
+    editProductName.value = product.name; // Se asigna el nombre actual.
+    editProductPrice.value = product.price; // Se asigna el precio actual.
+    toggleModalEditProduct(); // Abre el modal.
+};
+
+
+const editProduct = async() =>{
+    const token = localStorage.getItem('access_token');
+
+    try {
+        const response = await axios.post(
+            "http://127.0.0.1:5000/product/edit",
+            { id: editProductId.value, name: editProductName.value, price: editProductPrice.value },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+        // Actualizar el producto en la lista local
+        const product = products[editProductId.value];
+        product.name = editProductName.value;
+        product.price = editProductPrice.value;
+        successMessage.value = 'Producto editado correctamente.';
+        toggleModalEditProduct();
+    } catch (err) {
+        console.error('Error al editar el producto:', err.response?.data || err.message);
+        errorMessage.value = 'Error al editar el producto. Por favor, intenta nuevamente.';
+    }
+};
+
+const getwebsiteName = async()=> {
+    const token = localStorage.getItem('access_token');
+    const idPage = localStorage.getItem('id_page');
+
+    try {
+        const response = await axios.post(
+            'http://127.0.0.1:5000/website',
+            { id: idPage },
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            })
+            const data = response.data;
+            websiteName.value = data.name;
+    } catch (err) {
+        console.error('Error al obtener el nombre de la página:', err.response?.data || err.message);
+        errorMessage.value = 'Error al cargar el nombre de la página. Por favor, intenta nuevamente.';
+    }
+};
+
 
 // Cargar datos iniciales al montar el componente
 onMounted(() => {
     fetchSectionNames();
     fetchProducts();
+    getwebsiteName();
 });
 </script>

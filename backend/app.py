@@ -97,6 +97,20 @@ def delete_product():
         return jsonify({"message": "Producto eliminado exitosamente."}), 200
     except Exception as e:
         return jsonify({"error": f"Error al eliminar el producto: {str(e)}"}), 500
+    
+# Editar producto 
+@app.route('/product/edit', methods=['POST'])
+@jwt_required()
+def edit_product():
+    data = request.get_json()
+    if not all(key in data for key in ["name", "price", "id"]):
+        return jsonify({"error": "Faltan campos necesarios para editar el producto."}), 400
+    
+    try:
+        db.edit_product(data["name"], data["price"], data["id"])
+        return jsonify({"message": "Producto editado exitosamente."}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error al editar el producto: {str(e)}"}), 500
 
 
 
@@ -133,12 +147,21 @@ def delete_website():
         return jsonify({"message": "Delete successfully."}), 200
     except Exception as e:
         return jsonify({"error": f"An error has ocurred: {str(e)}"}), 500
+    
+#obtener website por id 
+@app.route('/website', methods=['POST'])
+@jwt_required()
+def get_website():
+    data = request.get_json()
+    website = db.get_website(data['id_page'])
+    return jsonify(website), 200
+
 
 
 # Pagina de edicion de website
 @app.route('/website_edit', methods=['POST'])
 @jwt_required()
-def get_website():
+def get_website_edit():
     data = request.get_json()
     website = db.get_website(data['id_page'])
     return jsonify(website), 200

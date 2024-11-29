@@ -114,6 +114,63 @@ def delete_product(product_id):
         commit=True
     )
 
+def edit_product(name, price, product_id):
+    # Obtener el producto actual de la base de datos
+    product = query(
+        "SELECT * FROM products WHERE id = ?",
+        (product_id,),
+        one=True
+    )
+    
+    # Verificar si el producto existe
+    if not product:
+        raise ValueError(f"Producto con id {product_id} no encontrado.")
+    
+    # Inicializar un diccionario para almacenar cambios
+    updates = {}
+    
+    # Verificar si el nombre debe actualizarse
+    if product['name'] != name:
+        updates['name'] = name
+    
+    # Verificar si el precio debe actualizarse
+    if product['price'] != price:
+        updates['price'] = price
+    
+    # Si hay actualizaciones, construir y ejecutar la consulta SQL
+    if updates:
+        set_clause = ", ".join(f"{key} = ?" for key in updates.keys())
+        values = list(updates.values()) + [product_id]
+        query(
+            f"UPDATE products SET {set_clause} WHERE id = ?",
+            values,
+            commit=True
+        )
+
+    #obtener el nombre antes de editar
+    product = query(
+        "SELECT * FROM products WHERE id = ?",
+        (product_id,),
+        one=True
+    )
+    #si el nombre es diferente, se debe actualizar el nombre en la base de datos
+    if product['name'] != name:
+        query(
+            "UPDATE products SET name = ? WHERE id = ?",
+            (name, product_id),
+            commit=True
+        )
+
+    #si el precio es diferente, se debe actualizar el precio en la base de datos
+    if product['price'] != price:
+        query(
+            "UPDATE products SET price = ? WHERE id = ?",
+            (price, product_id),
+            commit=True
+        )
+
+
+
 def get_all_products(id_page):
     products = query("SELECT * FROM products WHERE website = ?", (id_page,))
     return [dict(row) for row in products]  # Convertir cada fila en un diccionario
