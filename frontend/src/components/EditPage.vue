@@ -9,6 +9,17 @@
         <!-- Tabs -->
         <div class="w-11/12 mx-auto">
             <ul class="flex flex-wrap text-sm font-medium text-center text-brand border-b border-mid cursor-pointer">
+                <!--Mostrar todos los productos (All)-->
+                <li>
+                    <a
+                        @click.prevent="changeTab('All')"
+                        :class="{'text-darkest bg-mid active': activeTab === 'All'}"
+                        class="inline-block p-4 rounded-t-lg hover:text-darkest hover:bg-mid"
+                    >
+                        All
+                    </a>
+                </li>
+                
                 <!-- Mostrar las tabs correctamente -->
                 <li v-for="(items, section) in sections" :key="section" class="me-2">
                     <a
@@ -73,6 +84,33 @@
                 <!-- Mensaje si no hay productos -->
                 <div v-else class="text-center text-yellow-500 mt-4">
                     No hay productos disponibles en esta sección.
+                </div>
+            </div>
+        </div>
+
+        <!--Sección de All-->
+        <div v-show="activeTab === 'All'" class="w-11/12 mx-auto pt-12">
+            <div class="bg-light p-6 rounded-lg shadow mb-6">
+                <h2 class="text-2xl font-bold mb-4">Todos los productos</h2>
+                <div v-if="Object.keys(products).length > 0" class="flex flex-wrap -mx-2 mt-4">
+                    <div v-for="(product, index) in products" :key="index" class="w-full sm:w-1/2 px-2 mb-4">
+                        <div class="bg-lightest p-4 rounded-lg shadow">
+                            <h3 class="text-lg font-bold">{{ product.name }}</h3>
+                            <p class="text-sm">{{ product.description }}</p>
+                            <p class="text-sm font-semibold">Precio: {{ product.price }}</p>
+                            <div class="flex justify-end mt-3">
+                                <a @click.prevent="deleteProduct(product.id)" class="bg-red-500 text-lightest p-2 rounded-full shadow-md hover:bg-red-600 transition-colors" aria-label="Eliminar">
+                                    <Trash class="w-4 h-4" />
+                                </a>
+                                <a @click.prevent="prepareEditProduct(product)" class="bg-brand text-darkest p-2 rounded-full shadow-md hover:bg-brand-light transition-colors" aria-label="Editar">
+                                    <Edit class="w-4 h-4" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-else class="text-center text-yellow-500 mt-4">
+                    No hay productos disponibles.
                 </div>
             </div>
         </div>
@@ -217,7 +255,7 @@ import Edit from './icons/Edit.vue';
  
 // Variables reactivas
 const websiteName = ref(''); // Nombre de la página
-const activeTab = ref(''); // Inicializar vacío para la primera sección dinámica
+const activeTab = ref('All'); // Inicializar vacío para la primera sección dinámica
 const showModalSection = ref(false);
 const showModalProduct = ref(false);
 const newProductName = ref('');
