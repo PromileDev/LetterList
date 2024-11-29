@@ -482,15 +482,14 @@ const getwebsiteName = async()=> {
 
     try {
         const response = await axios.post(
-            'http://127.0.0.1:5000/website',
-            { id: idPage },
+            'http://127.0.0.1:5000/website/single',
+            { id_page: idPage },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             })
-            const data = response.data;
-            websiteName.value = data.name;
+        websiteName.value = response.data.name;
     } catch (err) {
         console.error('Error al obtener el nombre de la página:', err.response?.data || err.message);
         errorMessage.value = 'Error al cargar el nombre de la página. Por favor, intenta nuevamente.';

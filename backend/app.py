@@ -98,6 +98,20 @@ def delete_product():
         return jsonify({"message": "Producto eliminado exitosamente."}), 200
     except Exception as e:
         return jsonify({"error": f"Error al eliminar el producto: {str(e)}"}), 500
+    
+# Editar producto
+@app.route('/product/edit', methods=['POST'])
+@jwt_required()
+def edit_product():
+    data = request.get_json()
+    if not all(key in data for key in ["name", "price", "id"]):
+        return jsonify({"error": "Faltan campos necesarios para editar el producto."}), 400
+    
+    try:
+        db.edit_product(data["name"], data["price"], data["id"])
+        return jsonify({"message": "Producto editado exitosamente."}), 200
+    except Exception as e:
+        return jsonify({"error": f"Error al editar el producto: {str(e)}"}), 500
 
 ## Operaciones con websites
 # Añadir website
