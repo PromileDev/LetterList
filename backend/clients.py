@@ -13,3 +13,7 @@ def new_client(name):
 def new_page(name, client):
     ruta_final = os.path.join(directorio_padre, "frontend", "src", "pages", "clients", str(client), str(name))
     os.mkdir(ruta_final)
+    return ruta_final
+
+def new_index(page,client):
+    os.path.join(directorio_padre, "frontend", "src", "pages", "clients", str(client), str(page), "index.astro")

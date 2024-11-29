@@ -72,12 +72,14 @@ def query(query, args=(), one=False, commit=False):
     cursor = conn.cursor()
     cursor.execute(query, args)
     if commit:
+        last_id = cursor.lastrowid  # Captura el ID de la última fila insertada
         conn.commit()
         conn.close()
-        return
+        return last_id  # Devuelve el ID
     rv = cursor.fetchall()
     conn.close()
     return (rv[0] if rv else None) if one else rv
+
 
 def add_user(name, lastname, email, password):
     query(
@@ -119,11 +121,13 @@ def get_all_products(id_page):
     return [dict(row) for row in products]  # Convertir cada fila en un diccionario
 
 def add_website(name, user_id):
-    query(
+    new_id = query(
         "INSERT INTO websites (name, user_id) VALUES (?, ?)",
         (name, user_id),
         commit=True
     )
+    return new_id  # Devuelve el ID de la página recién creada
+
 
 def get_all_websites(user_id):
     websites = query("SELECT * FROM websites where user_id = ?", (user_id,))
@@ -182,5 +186,3 @@ def change_user(name, lastname, user_id):
         (name, lastname, user_id),
         commit=True
     )
-
-create_tables()

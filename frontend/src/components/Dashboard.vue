@@ -47,17 +47,23 @@ const editPage = (id) => {
     window.location.href = '/edit';
 }
 
-const viewPage = async(id) => {
-    const id_user = 0;
+const viewPage = async (id) => {
     const token = localStorage.getItem('access_token');
-    const response = await axios.get("http://127.0.0.1:5000/user/id",{
-        headers: {
-            Authorization: `Bearer ${token}`,
-        }
-    });
-    const data = response.data;
-    id_user = data.id;
-}
+    try {
+        const response = await axios.post("http://127.0.0.1:5000/user/website", {
+            id_page: id.id_page
+        }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        const data = response.data;
+        window.location.href = `/clients/${data.id}/${data.name}`;
+    } catch (error) {
+        console.error("Error fetching data:", error.response ? error.response.data : error.message);
+    }
+};
+
 
 const deletePage = async (id) => {
     try{
