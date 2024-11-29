@@ -184,6 +184,13 @@ def change_user():
     db.change_user(data['name'], data['lastname'], user_id)
     return jsonify({"message": "User changed successfully!"}), 201
 
+#get id
+@app.route("/user/id", methods=['GET'])
+@jwt_required()
+def get_id():
+    user_id = get_jwt_identity()
+    return jsonify({"id": user_id}), 200
+
 
 # Iniciar el servidor
 if __name__ == '__main__':
