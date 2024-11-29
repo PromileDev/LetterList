@@ -1,4 +1,4 @@
-def template1(name):
+def template1(name, products):
     astro_content = f"""---
     import Layout from "../../../../layouts/Layout.astro"
     ---
