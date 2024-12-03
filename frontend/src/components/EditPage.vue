@@ -89,7 +89,7 @@
         </div>
 
         <!--Sección de All-->
-        <div v-show="activeTab === 'All'" class="w-11/12 mx-auto pt-12">
+        <div v-show="activeTab === 'All'" class="w-11/12 mx-auto">
             <div class="bg-light p-6 rounded-lg shadow mb-6">
                 <h2 class="text-2xl font-bold mb-4">Todos los productos</h2>
                 <div v-if="Object.keys(products).length > 0" class="flex flex-wrap -mx-2 mt-4">
@@ -99,7 +99,7 @@
                             <p class="text-sm">{{ product.description }}</p>
                             <p class="text-sm font-semibold">Precio: {{ product.price }}</p>
                             <p class="text-sm font-semibold">Sección: {{ sectionNames[product.section_id] }}</p>
-                            <div class="flex justify-end mt-3">
+                            <div class="flex justify-end mt-3 space-x-2">
                                 <a @click.prevent="deleteProduct(product.id)" class="bg-red-500 text-lightest p-2 rounded-full shadow-md hover:bg-red-600 transition-colors" aria-label="Eliminar">
                                     <Trash class="w-4 h-4" />
                                 </a>
@@ -270,7 +270,7 @@ import Edit from './icons/Edit.vue';
  
 // Variables reactivas
 const websiteName = ref(''); // Nombre de la página
-const activeTab = ref(''); // Inicializar vacío para la primera sección dinámica
+const activeTab = ref(''); // Tab activa
 const showModalSection = ref(false);
 const showModalProduct = ref(false);
 const newProductName = ref('');
@@ -552,11 +552,18 @@ const getwebsiteName = async()=> {
     }
 };
 
+const fetchAll = async () => {
+      await fetchSectionNames();
+      await fetchProducts();
+      getwebsiteName();
+      changeTab('All');
+    };
+
 
 // Cargar datos iniciales al montar el componente
 onMounted(() => {
-    fetchSectionNames();
-    fetchProducts();
-    getwebsiteName();
+    fetchAll();
 });
+
+
 </script>
