@@ -41,8 +41,7 @@ const handlePayment = async () => {
 <template>
   <div class="mx-auto max-w-screen-xl px-4 2xl:px-0">
     <div class="mx-auto max-w-5xl">
-      <h1 class="font-bold text-lightest text-xl md:text-light md:text-6xl">Payment amount:</h1>
-      <h1 class="font-bold text-lightest text-xl md:text-6xl md:text-light md:mb-2">30 €</h1>
+      <h1 class="font-bold text-lightest text-xl md:text-light md:text-6xl">Payment</h1>
       <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
         <form
           @submit.prevent="handlePayment"

@@ -58,11 +58,12 @@ export default {
 
     <!-- Botón -->
     <div class="flex justify-end mt-3">
-      <button
-        class="bg-brand text-darkest px-6 py-3 rounded-md shadow-md hover:bg-light transition-colors"
-      >
-        Select Plan
-      </button>
+       <a
+    :href="`/payment?title=${title}&price=${price}&options=${encodeURIComponent(JSON.stringify(options))}&popular=${popular}`"
+    class="bg-brand text-darkest px-6 py-3 rounded-md shadow-md hover:bg-light transition-colors"
+  >
+    Select Plan
+  </a>
     </div>
   </div>
 </template>
