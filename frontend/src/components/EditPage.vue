@@ -98,6 +98,7 @@
                             <h3 class="text-lg font-bold">{{ product.name }}</h3>
                             <p class="text-sm">{{ product.description }}</p>
                             <p class="text-sm font-semibold">Precio: {{ product.price }}</p>
+                            <p class="text-sm font-semibold">Sección: {{ sectionNames[product.section_id] }}</p>
                             <div class="flex justify-end mt-3">
                                 <a @click.prevent="deleteProduct(product.id)" class="bg-red-500 text-lightest p-2 rounded-full shadow-md hover:bg-red-600 transition-colors" aria-label="Eliminar">
                                     <Trash class="w-4 h-4" />
@@ -228,6 +229,20 @@
                         placeholder="Escribe el precio"
                         :class="{'border-red-500': nameError}"
                     />
+
+                    <label for="editProductSection" class="block text-lg font-medium mb-2 text-dark">
+                        Sección del producto
+                    </label>
+                    <select
+                        v-model="editProductSection"
+                        id="editProductSection"
+                        class="p-2 border border-light rounded-lg w-full mb-4 focus:ring-0 focus:border-brand"
+                    >
+                        <option v-for="(sectionName, sectionId) in sectionNames" :key="sectionId" :value="sectionId">
+                            {{ sectionName }}
+                        </option>
+                    </select>
+
                     <!-- Mensaje de error si el precio es inválido -->
                     <p v-if="nameError" class="text-red-500 text-sm">El precio del producto no puede estar vacío o ser duplicado.</p>
                 </div>
@@ -255,7 +270,7 @@ import Edit from './icons/Edit.vue';
  
 // Variables reactivas
 const websiteName = ref(''); // Nombre de la página
-const activeTab = ref('All'); // Inicializar vacío para la primera sección dinámica
+const activeTab = ref(''); // Inicializar vacío para la primera sección dinámica
 const showModalSection = ref(false);
 const showModalProduct = ref(false);
 const newProductName = ref('');
@@ -264,6 +279,7 @@ const newSectionName = ref('');
 const showModalEditProduct = ref(false);
 const editProductName = ref('');
 const editProductPrice = ref('');
+const editProductSection = ref('');
 const editProductId = ref(null)
 const nameError = ref(false);
 const products = reactive({}); // Contendrá todos los productos
@@ -485,6 +501,7 @@ const prepareEditProduct = (product) => {
     editProductId.value = product.id; // Se asigna el ID del producto seleccionado.
     editProductName.value = product.name; // Se asigna el nombre actual.
     editProductPrice.value = product.price; // Se asigna el precio actual.
+    editProductSection.value = product.section_id; // Se asigna la sección actual.
     toggleModalEditProduct(); // Abre el modal.
 };
 
@@ -495,7 +512,7 @@ const editProduct = async() =>{
     try {
         const response = await axios.post(
             "http://127.0.0.1:5000/product/edit",
-            { id: editProductId.value, name: editProductName.value, price: editProductPrice.value },
+            { id: editProductId.value, name: editProductName.value, price: editProductPrice.value, section_id: editProductSection.value },
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -506,6 +523,7 @@ const editProduct = async() =>{
         const product = products[editProductId.value];
         product.name = editProductName.value;
         product.price = editProductPrice.value;
+        product.section_id = editProductSection.value;
         successMessage.value = 'Producto editado correctamente.';
         toggleModalEditProduct();
     } catch (err) {

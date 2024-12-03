@@ -116,7 +116,7 @@ def delete_product(product_id):
         commit=True
     )
 
-def edit_product(name, price, product_id):
+def edit_product(name, price, product_id, section_id):
     # Obtener el producto actual de la base de datos
     product = query(
         "SELECT * FROM products WHERE id = ?",
@@ -139,6 +139,10 @@ def edit_product(name, price, product_id):
     if product['price'] != price:
         updates['price'] = price
     
+    # Verificar si la sección debe actualizarse
+    if product['section_id'] != section_id:
+        updates['section_id'] = section_id
+
     # Si hay actualizaciones, construir y ejecutar la consulta SQL
     if updates:
         set_clause = ", ".join(f"{key} = ?" for key in updates.keys())
@@ -148,28 +152,8 @@ def edit_product(name, price, product_id):
             values,
             commit=True
         )
-
-    #obtener el nombre antes de editar
-    product = query(
-        "SELECT * FROM products WHERE id = ?",
-        (product_id,),
-        one=True
-    )
-    #si el nombre es diferente, se debe actualizar el nombre en la base de datos
-    if product['name'] != name:
-        query(
-            "UPDATE products SET name = ? WHERE id = ?",
-            (name, product_id),
-            commit=True
-        )
-
-    #si el precio es diferente, se debe actualizar el precio en la base de datos
-    if product['price'] != price:
-        query(
-            "UPDATE products SET price = ? WHERE id = ?",
-            (price, product_id),
-            commit=True
-        )
+    else:
+        print("No hay cambios para actualizar.")
 
 
 

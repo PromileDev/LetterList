@@ -104,11 +104,11 @@ def delete_product():
 @jwt_required()
 def edit_product():
     data = request.get_json()
-    if not all(key in data for key in ["name", "price", "id"]):
+    if not all(key in data for key in ["name", "price", "id", "section_id"]):
         return jsonify({"error": "Faltan campos necesarios para editar el producto."}), 400
     
     try:
-        db.edit_product(data["name"], data["price"], data["id"])
+        db.edit_product(data["name"], data["price"], data["id"], data["section_id"])
         return jsonify({"message": "Producto editado exitosamente."}), 200
     except Exception as e:
         return jsonify({"error": f"Error al editar el producto: {str(e)}"}), 500
