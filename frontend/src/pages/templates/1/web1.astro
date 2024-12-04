@@ -1,11 +1,16 @@
 ---
-import Layout from "../../../layouts/Template.astro"
+import Template from "../../../layouts/Template.astro";
+interface Props {
+    name_page: string;
+}
+
+const { name_page } = Astro.props;
 ---
 
-<Layout title="Letter List">
-    <main>
-        <h1 class="text-6xl font-bold">TEST 1</h1>
-        <h2>User info:</h2>
-        <slot/>
-    </main>
-</Layout>
+<Template title={name_page}>
+    <h1>{name_page}</h1>
+    <slot/>
+    <footer>
+        
+    </footer>
+</Template>
