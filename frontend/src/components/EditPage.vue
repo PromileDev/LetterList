@@ -10,7 +10,7 @@
         <div class="w-11/12 mx-auto">
             <ul class="flex flex-wrap text-sm font-medium text-center text-brand border-b border-mid cursor-pointer">
                 <!--Mostrar todos los productos (All)-->
-                <li>
+                <li class="me-2">
                     <a
                         @click.prevent="changeTab('All')"
                         :class="{'text-darkest bg-mid active': activeTab === 'All'}"
