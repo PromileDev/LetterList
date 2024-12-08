@@ -45,7 +45,7 @@ const handlePayment = async () => {
       <div class="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12">
         <form
           @submit.prevent="handlePayment"
-          class="w-full rounded-lg md:bg-light p-4 shadow-sm sm:p-6 lg:max-w-xl lg:p-8"
+          class="w-full rounded-lg md:bg-light p-4 md:shadow-sm sm:p-6 lg:max-w-xl lg:p-8"
         >
           <!-- Nombre completo -->
           <div class="mb-6">
