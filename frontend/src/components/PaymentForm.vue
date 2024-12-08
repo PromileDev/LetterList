@@ -127,7 +127,7 @@ const handlePayment = async () => {
       </div>
 
       <!-- Logos de tarjetas -->
-      <div class="flex justify-center items-center mt-3 mb-5">
+      <div class="flex justify-center items-center mt-3">
         <img src="/fotos/Mastercard.png" class="w-[75px] mx-2" alt="Mastercard logo">
         <img src="/fotos/Visa.png" class="w-[75px] mx-2" alt="Visa logo">
       </div>
