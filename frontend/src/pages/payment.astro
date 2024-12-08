@@ -2,23 +2,11 @@
 // Importar dependencias
 import Layout from "../layouts/Layout.astro";
 import PaymentComponent from "../components/PaymentComponent.vue";
-
-// Obtener y parsear los parámetros de la URL
-const searchParams = new URL(Astro.request.url).searchParams;
-
-const title = searchParams.get('title') || 'Default Title';
-const price = parseFloat(searchParams.get('price')) || 0;
-// Convertir opciones en un array si están presentes
-const options = searchParams.get('options') ? searchParams.get('options').split(',') : [];
-const popular = searchParams.get('popular') === 'true';
-
-
 ---
 
 <Layout title="Payment">
-  
   <main class="flex flex-col md:flex-row md:justify-between h-screen w-11/12 md:w-[80%] items-center mx-auto">
-    <!-- Pasar los datos correctamente al componente Payment -->
-    <PaymentComponent client:load {title} {price} {options} {popular} />
+    <!-- Solo cargar el componente en el cliente -->
+    <PaymentComponent client:load />
   </main>
 </Layout>

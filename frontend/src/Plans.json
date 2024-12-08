@@ -1,32 +1,18 @@
-{
-  "plans": [
-    {
-      "title": "Basic",
-      "price": 50,
-      "options": [
-        "Unlimited letters",
-        "Unlimited templates",
-        "Unlimited contacts",
-        "Unlimited campaigns",
-        "Unlimited analytics"
-      ]
-    },
-    {
-      "title": "Pro",
-      "price": 100,
-      "options": [
-        "Basic Plan",
-        "Custom branding"
-      ],
-      "popular": true
-    },
-    {
-      "title": "Enterprise",
-      "price": 200,
-      "options": [
-        "Pro plan",
-        "Dedicated account manager"
-      ]
-    }
-  ]
-}
+[
+  {
+    "title": "Basic",
+    "price": 50,
+    "options": ["Unlimited letters", "Unlimited templates", "Unlimited contacts", "Unlimited campaigns", "Unlimited analytics"]
+  },
+  {
+    "title": "Pro",
+    "price": 100,
+    "options": ["Basic Plan", "Custom branding"],
+    "popular": true
+  },
+  {
+    "title": "Enterprise",
+    "price": 200,
+    "options": ["Pro plan", "Dedicated account manager"]
+  }
+]

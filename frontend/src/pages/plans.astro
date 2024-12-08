@@ -1,22 +1,31 @@
 ---
-import Layout from '../layouts/Layout.astro'
-import PlanCard  from '../components/PlanCard.vue'
-import TablePlans from '../components/TablePlans.vue'
+import Layout from '../layouts/Layout.astro';
+import PlanCard from '../components/PlanCard.vue';
+import TablePlans from '../components/TablePlans.vue';
+import plans from '../Plans.json'; // Importar datos de los planes
 ---
-<Layout title='Plans'>
-    <main class="z-10">
-      <h1 class="text-6xl text-light font-bold text-center mt-10">Plans</h1>
 
-      
-      <div class=" flex flex-col md:flex-row gap-6 justify-center items-center mt-10">
-          <PlanCard client:load title={'Basic'} price={50} options={['Unlimited letters', 'Unlimited templates', 'Unlimited contacts', 'Unlimited campaigns', 'Unlimited analytics']} />
-          <PlanCard client:load title={'Pro'} price={100} options={['Basic Plan', 'Custom branding']}, popular={true} />
-          <PlanCard client:load title={'Enterprise'} price={200} options={['Pro plan', 'Dedicated account manager']} />
-      </div>
+<Layout title="Plans">
+  <main class="z-10">
+    <h1 class="text-6xl text-light font-bold text-center mt-10">Plans</h1>
 
-      <div class="flex justify-center items-center mt-20">
-        <h2 class="text-4xl text-light font-bold">Compare Plans</h2>
-      </div>
-      <TablePlans client:load />
-    </main>
+    <!-- Renderizado dinámico de los PlanCards -->
+    <div class="flex flex-col md:flex-row gap-6 justify-center items-center mt-10">
+      {plans.map((plan) => (
+        <PlanCard
+          client:load
+          title={plan.title}
+          price={plan.price}
+          options={plan.options}
+          popular={plan.popular}
+        />
+      ))}
+    </div>
+
+    <!-- Tabla de comparación -->
+    <div class="flex justify-center items-center mt-20">
+      <h2 class="text-4xl text-light font-bold">Compare Plans</h2>
+    </div>
+    <TablePlans client:load />
+  </main>
 </Layout>

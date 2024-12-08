@@ -1,33 +1,37 @@
 <script setup>
 import MostPopular from "../components/MostPopular.vue";
-</script>
 
-<script>
-export default {
-  name: "PlanCard",
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    price: {
-      type: Number,
-      required: true,
-    },
-    options: {
-      type: Array,
-      required: true,
-    },
-    popular: {
-      type: Boolean,
-      default: false,
-    },
+// Definir propiedades
+defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-};
+  price: {
+    type: Number,
+    required: true,
+  },
+  options: {
+    type: Array,
+    required: true,
+  },
+  popular: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+// Función para guardar el plan seleccionado en localStorage
+const paymentPage = (title) => {
+    localStorage.setItem('title_plan', title);
+    window.location.href = '/payment';
+}
 </script>
 
 <template>
-  <div class="card bg-darkest shadow-lg rounded-lg text-lightest border border-mid transform transition-transform hover:scale-105 flex flex-col">
+  <div
+    class="card bg-darkest shadow-lg rounded-lg text-lightest border border-mid transform transition-transform hover:scale-105 flex flex-col"
+  >
     <div class="m-4" />
     <!-- Título y Most Popular -->
     <div class="flex items-center mb-6 pl-5 h-12">
@@ -58,12 +62,12 @@ export default {
 
     <!-- Botón -->
     <div class="flex justify-end mt-3">
-       <a
-    :href="`/payment?title=${title}&price=${price}&options=${encodeURIComponent(JSON.stringify(options))}&popular=${popular}`"
-    class="bg-brand text-darkest px-6 py-3 rounded-md shadow-md hover:bg-light transition-colors"
-  >
-    Select Plan
-  </a>
+      <button
+        @click="paymentPage(title)"
+        class="bg-brand text-darkest px-6 py-3 rounded-md shadow-md hover:bg-light transition-colors cursor-pointer"
+      >
+        Select Plan
+      </button>
     </div>
   </div>
 </template>
@@ -77,4 +81,4 @@ export default {
   height: 450px;
   width: 300px;
 }
-</style> 
+</style>
