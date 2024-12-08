@@ -1,5 +1,5 @@
 <template>
-  <main class="flex flex-col md:flex-row md:justify-between h-screen w-11/12 md:w-[80%] items-center mx-auto">
+  <main class="flex flex-col md:flex-row md:justify-between  w-11/12 md:w-[80%] items-center mx-auto">
     <div class="flex justify-center flex-col items-center w-[50%] mt-[10vh] md:mt-0">
       <!-- Mostrar el plan seleccionado -->
       <PlanCard :title="selectedPlan.title" :price="selectedPlan.price" :options="selectedPlan.options" :popular="selectedPlan.popular" />
